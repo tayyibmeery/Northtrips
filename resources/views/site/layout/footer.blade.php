@@ -5,16 +5,26 @@
             <div class="col-md-6 col-lg-6 col-xl-3">
                 <div class="footer-item d-flex flex-column">
                     <h4 class="mb-4 text-white">Get In Touch</h4>
-                    <a href=""><i class="fas fa-home me-2"></i> 123 Street, New York, USA</a>
-                    <a href=""><i class="fas fa-envelope me-2"></i> info@example.com</a>
-                    <a href=""><i class="fas fa-phone me-2"></i> +012 345 67890</a>
-                    <a href="" class="mb-3"><i class="fas fa-print me-2"></i> +012 345 67890</a>
+                    <a href=""><i class="fas fa-home me-2"></i> {{$setting->address}}</a>
+
+                    <a href=""><i class="fas fa-envelope me-2"></i> {{ $setting?->email  }}</a>
+
+                    <a href=""><i class="fas fa-phone me-2"></i> {{ $setting->phone }}</a>
+
+                    <a href="https://wa.me/{{ preg_replace('/\D/', '', $setting->whatsapp) }}" target="_blank" class="mb-3">
+                        <i class="fab fa-whatsapp me-2"></i> {{ $setting->whatsapp }}
+                    </a>
+
+
                     <div class="d-flex align-items-center">
                         <i class="fas fa-share fa-2x text-white me-2"></i>
-                        <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-instagram"></i></a>
-                        <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-linkedin-in"></i></a>
+           @foreach($social as $value)
+           <a class="btn-square btn btn-primary rounded-circle mx-1" href="{{ $value->url }}" target="_blank">
+               <i class="fab fa-{{$value->icon_class}}"></i>
+           </a>
+           @endforeach
+
+
                     </div>
                 </div>
             </div>

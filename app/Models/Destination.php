@@ -1,5 +1,4 @@
 <?php
-// app/Models/Destination.php
 
 namespace App\Models;
 
@@ -38,5 +37,31 @@ class Destination extends Model
     public function scopeOrdered($query)
     {
         return $query->orderBy('order');
+    }
+
+    public function scopeByCategory($query, $categoryId)
+    {
+        return $query->where('category_id', $categoryId);
+    }
+
+    // Accessor for image URL
+    public function getImageUrlAttribute()
+    {
+        if ($this->image) {
+            return asset('storage/' . $this->image);
+        }
+        return asset('img/default-destination.jpg');
+    }
+
+    // Get photos count with fallback
+    public function getDisplayPhotosCountAttribute()
+    {
+        return $this->photos_count ?? 20;
+    }
+
+    // Get button text with fallback
+    public function getDisplayButtonTextAttribute()
+    {
+        return $this->button_text ?: 'View All Place';
     }
 }

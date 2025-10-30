@@ -158,6 +158,14 @@
                         <p>Travel Guides</p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.blog-categories.index') }}" class="nav-link {{ request()->routeIs('admin.blog-categories.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-tags"></i>
+                        <p>Blog Categories</p>
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a href="{{ route('admin.blogs.index') }}" class="nav-link {{ request()->routeIs('admin.blogs.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-blog"></i>

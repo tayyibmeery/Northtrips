@@ -41,8 +41,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="excerpt">Excerpt</label>
-                                    <textarea class="form-control @error('excerpt') is-invalid @enderror" id="excerpt" name="excerpt" rows="3" placeholder="Brief description of the blog post">{{ old('excerpt') }}</textarea>
+                                    <label for="excerpt">Excerpt *</label>
+                                    <textarea class="form-control @error('excerpt') is-invalid @enderror" id="excerpt" name="excerpt" rows="3" required placeholder="Brief description of the blog post">{{ old('excerpt') }}</textarea>
                                     @error('excerpt')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -50,13 +50,15 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="featured_image">Featured Image</label>
-                                    <input type="file" class="form-control-file @error('featured_image') is-invalid @enderror" id="featured_image" name="featured_image">
-                                    @error('featured_image')
+                                    <label for="image">Featured Image *</label>
+                                    <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image" name="image" required>
+                                    @error('image')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                    <small class="form-text text-muted">Supported formats: jpeg, png, jpg, gif. Max size: 2MB</small>
                                 </div>
 
+                                @if($categories->count() > 0)
                                 <div class="form-group">
                                     <label for="blog_category_id">Category *</label>
                                     <select class="form-control @error('blog_category_id') is-invalid @enderror" id="blog_category_id" name="blog_category_id" required>
@@ -71,11 +73,31 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <small>No blog categories found. Please create blog categories first or add this field manually.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="blog_category_id">Category ID</label>
+                                    <input type="number" class="form-control @error('blog_category_id') is-invalid @enderror" id="blog_category_id" name="blog_category_id" value="{{ old('blog_category_id') }}" placeholder="Enter category ID">
+                                    @error('blog_category_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                @endif
 
                                 <div class="form-group">
-                                    <label for="author">Author *</label>
-                                    <input type="text" class="form-control @error('author') is-invalid @enderror" id="author" name="author" value="{{ old('author') }}" required placeholder="Author name">
-                                    @error('author')
+                                    <label for="author_name">Author *</label>
+                                    <input type="text" class="form-control @error('author_name') is-invalid @enderror" id="author_name" name="author_name" value="{{ old('author_name') }}" required placeholder="Author name">
+                                    @error('author_name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="published_date">Published Date *</label>
+                                    <input type="date" class="form-control @error('published_date') is-invalid @enderror" id="published_date" name="published_date" value="{{ old('published_date', date('Y-m-d')) }}" required>
+                                    @error('published_date')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -96,6 +118,29 @@
                                         <input type="checkbox" class="custom-control-input" id="is_featured" name="is_featured" value="1" {{ old('is_featured') ? 'checked' : '' }}>
                                         <label class="custom-control-label" for="is_featured">Featured Post</label>
                                     </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }}>
+                                        <label class="custom-control-label" for="is_active">Active</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="read_more_text">Read More Text</label>
+                                    <input type="text" class="form-control @error('read_more_text') is-invalid @enderror" id="read_more_text" name="read_more_text" value="{{ old('read_more_text') }}" placeholder="Read More">
+                                    @error('read_more_text')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="read_more_link">Read More Link</label>
+                                    <input type="url" class="form-control @error('read_more_link') is-invalid @enderror" id="read_more_link" name="read_more_link" value="{{ old('read_more_link') }}" placeholder="https://example.com/blog-post">
+                                    @error('read_more_link')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group">

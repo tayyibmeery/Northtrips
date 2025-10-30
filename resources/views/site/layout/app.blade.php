@@ -35,6 +35,21 @@
 </head>
 
 <body>
+
+@php
+use App\Models\CompanySetting;
+use App\Models\SocialMediaLink;
+use App\Models\Carousel;
+use App\Models\AboutSection;
+use App\Models\Service;
+
+$servic = Service::active()->ordered()->get();
+$aboutSections = AboutSection::where('is_active', true)->get();
+$setting = CompanySetting::first();
+$social = SocialMediaLink::all();
+$carousels = Carousel::active()->ordered()->get();
+@endphp
+
     @include('site.layout.topbar')
 
 

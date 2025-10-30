@@ -1,5 +1,4 @@
 <?php
-// app/Models/DestinationCategory.php
 
 namespace App\Models;
 
@@ -26,6 +25,11 @@ class DestinationCategory extends Model
         return $this->hasMany(Destination::class, 'category_id');
     }
 
+    public function activeDestinations()
+    {
+        return $this->hasMany(Destination::class, 'category_id')->active();
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
@@ -34,5 +38,17 @@ class DestinationCategory extends Model
     public function scopeOrdered($query)
     {
         return $query->orderBy('order');
+    }
+
+    // Check if category has destinations
+    public function getHasDestinationsAttribute()
+    {
+        return $this->destinations()->active()->exists();
+    }
+
+    // Get destinations count
+    public function getDestinationsCountAttribute()
+    {
+        return $this->destinations()->active()->count();
     }
 }

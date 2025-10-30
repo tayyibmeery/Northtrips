@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DestinationCategory;
 use App\Models\ExploreTour;
 use App\Models\TourCategory;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ class ExploreTourController extends Controller
     public function create()
     {
         $categories = TourCategory::active()->ordered()->get();
+        // $categories = DestinationCategory::active()->ordered()->get();
         return view('admin.explore-tours.create', compact('categories'));
     }
 

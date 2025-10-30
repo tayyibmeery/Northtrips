@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('title', 'Travela - Travel Guides')
+@section('title', 'Travela - Blog Categories')
 
 @section('content')
 <div class="container-fluid">
@@ -8,10 +8,10 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Travel Guides</h3>
+                    <h3 class="card-title">Blog Categories</h3>
                     <div class="card-tools">
-                        <a href="{{ route('admin.travel-guides.create') }}" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Add New Guide
+                        <a href="{{ route('admin.blog-categories.create') }}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add New Category
                         </a>
                     </div>
                 </div>
@@ -23,44 +23,42 @@
                     <div class="alert alert-danger">{{ session('error') }}</div>
                     @endif
 
-                    @if($guides->count() > 0)
+                    @if($categories->count() > 0)
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
-                                    <th>Designation</th>
-                                    <th>Image</th>
+                                    <th>Slug</th>
+                                    <th>Description</th>
+                                    <th>Blog Posts</th>
                                     <th>Order</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($guides as $guide)
+                                @foreach($categories as $category)
                                 <tr>
-                                    <td>{{ $guide->id }}</td>
-                                    <td>{{ $guide->name }}</td>
-                                    <td>{{ $guide->designation }}</td>
+                                    <td>{{ $category->id }}</td>
+                                    <td>{{ $category->name }}</td>
+                                    <td>{{ $category->slug }}</td>
+                                    <td>{{ Str::limit($category->description, 50) ?: 'N/A' }}</td>
                                     <td>
-                                        @if($guide->image)
-                                        <img src="{{ Storage::url($guide->image) }}" alt="{{ $guide->name }}" style="width: 50px; height: 50px; object-fit: cover;" class="rounded">
-                                        @else
-                                        <span class="text-muted">No image</span>
-                                        @endif
+                                        <span class="badge badge-info">{{ $category->blogs->count() }}</span>
                                     </td>
-                                    <td>{{ $guide->order }}</td>
+                                    <td>{{ $category->order }}</td>
                                     <td>
-                                        <span class="badge badge-{{ $guide->is_active ? 'success' : 'secondary' }}">
-                                            {{ $guide->is_active ? 'Active' : 'Inactive' }}
+                                        <span class="badge badge-{{ $category->is_active ? 'success' : 'secondary' }}">
+                                            {{ $category->is_active ? 'Active' : 'Inactive' }}
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.travel-guides.edit', $guide->id) }}" class="btn btn-sm btn-warning">
+                                        <a href="{{ route('admin.blog-categories.edit', $category->id) }}" class="btn btn-sm btn-warning">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('admin.travel-guides.destroy', $guide->id) }}" method="POST" style="display: inline-block;">
+                                        <form action="{{ route('admin.blog-categories.destroy', $category->id) }}" method="POST" style="display: inline-block;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
@@ -75,7 +73,7 @@
                     </div>
                     @else
                     <div class="alert alert-info">
-                        No travel guides found. <a href="{{ route('admin.travel-guides.create') }}">Create the first one!</a>
+                        No blog categories found. <a href="{{ route('admin.blog-categories.create') }}">Create the first one!</a>
                     </div>
                     @endif
                 </div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AboutSectionController;
+use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CarouselController;
 use App\Http\Controllers\Admin\CompanySettingController;
@@ -76,6 +77,8 @@ Route::prefix('admins')->name('admin.')->middleware(['auth', 'admin'])->group(fu
     // Content
     Route::resource('/travel-guides', TravelGuideController::class)->names('travel-guides');
     Route::resource('/blogs', BlogController::class)->names('blogs');
+
+    Route::resource('/blog-categories', BlogCategoryController::class)->names('blog-categories');
     Route::resource('/testimonials', TestimonialController::class)->names('testimonials');
 
     // Social Media

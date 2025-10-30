@@ -17,78 +17,76 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <label for="title">Title *</label>
-                                    <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title') }}" required placeholder="Enter guide title">
-                                    @error('title')
+                                    <label for="name">Name *</label>
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required placeholder="Enter guide name">
+                                    @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="content">Content *</label>
-                                    <textarea class="form-control @error('content') is-invalid @enderror" id="content" name="content" rows="10" required placeholder="Write your travel guide content here">{{ old('content') }}</textarea>
-                                    @error('content')
+                                    <label for="designation">Designation *</label>
+                                    <input type="text" class="form-control @error('designation') is-invalid @enderror" id="designation" name="designation" value="{{ old('designation') }}" required placeholder="Enter guide designation">
+                                    @error('designation')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="excerpt">Excerpt</label>
-                                    <textarea class="form-control @error('excerpt') is-invalid @enderror" id="excerpt" name="excerpt" rows="3" placeholder="Brief description of the guide">{{ old('excerpt') }}</textarea>
-                                    @error('excerpt')
+                                    <label for="image">Profile Image *</label>
+                                    <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image" name="image" required>
+                                    @error('image')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                    <small class="form-text text-muted">Supported formats: jpeg, png, jpg, gif. Max size: 2MB</small>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="featured_image">Featured Image</label>
-                                    <input type="file" class="form-control-file @error('featured_image') is-invalid @enderror" id="featured_image" name="featured_image">
-                                    @error('featured_image')
+                                    <label for="facebook_url">Facebook URL</label>
+                                    <input type="url" class="form-control @error('facebook_url') is-invalid @enderror" id="facebook_url" name="facebook_url" value="{{ old('facebook_url') }}" placeholder="https://facebook.com/username">
+                                    @error('facebook_url')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="author">Author *</label>
-                                    <input type="text" class="form-control @error('author') is-invalid @enderror" id="author" name="author" value="{{ old('author') }}" required placeholder="Author name">
-                                    @error('author')
+                                    <label for="twitter_url">Twitter URL</label>
+                                    <input type="url" class="form-control @error('twitter_url') is-invalid @enderror" id="twitter_url" name="twitter_url" value="{{ old('twitter_url') }}" placeholder="https://twitter.com/username">
+                                    @error('twitter_url')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="status">Status *</label>
-                                    <select class="form-control @error('status') is-invalid @enderror" id="status" name="status" required>
-                                        <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft</option>
-                                        <option value="published" {{ old('status') == 'published' ? 'selected' : '' }}>Published</option>
-                                    </select>
-                                    @error('status')
+                                    <label for="instagram_url">Instagram URL</label>
+                                    <input type="url" class="form-control @error('instagram_url') is-invalid @enderror" id="instagram_url" name="instagram_url" value="{{ old('instagram_url') }}" placeholder="https://instagram.com/username">
+                                    @error('instagram_url')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="linkedin_url">LinkedIn URL</label>
+                                    <input type="url" class="form-control @error('linkedin_url') is-invalid @enderror" id="linkedin_url" name="linkedin_url" value="{{ old('linkedin_url') }}" placeholder="https://linkedin.com/in/username">
+                                    @error('linkedin_url')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="order">Order</label>
+                                    <input type="number" class="form-control @error('order') is-invalid @enderror" id="order" name="order" value="{{ old('order', 0) }}" placeholder="Display order">
+                                    @error('order')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="form-group">
                                     <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="is_featured" name="is_featured" value="1" {{ old('is_featured') ? 'checked' : '' }}>
-                                        <label class="custom-control-label" for="is_featured">Featured Guide</label>
+                                        <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }}>
+                                        <label class="custom-control-label" for="is_active">Active</label>
                                     </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="meta_title">Meta Title</label>
-                                    <input type="text" class="form-control @error('meta_title') is-invalid @enderror" id="meta_title" name="meta_title" value="{{ old('meta_title') }}" placeholder="Meta title for SEO">
-                                    @error('meta_title')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="meta_description">Meta Description</label>
-                                    <textarea class="form-control @error('meta_description') is-invalid @enderror" id="meta_description" name="meta_description" rows="3" placeholder="Meta description for SEO">{{ old('meta_description') }}</textarea>
-                                    @error('meta_description')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
                                 </div>
                             </div>
                         </div>

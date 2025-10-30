@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/Admin/PackageController.php
 
 namespace App\Http\Controllers\Admin;
 
@@ -27,17 +26,17 @@ class PackageController extends Controller
             'title' => 'required|string|max:255',
             'destination' => 'required|string|max:255',
             'duration_days' => 'required|integer|min:1',
-            'persons' => 'required|integer|min:1',
+            'persons' => 'required|integer|min:1', // Changed to 'persons'
             'price' => 'required|numeric|min:0',
             'rating' => 'nullable|numeric|min:0|max:5',
             'description' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'hotel_deals_text' => 'nullable|string|max:50',
             'read_more_text' => 'nullable|string|max:50',
-            'read_more_link' => 'nullable|url',
+            'read_more_link' => 'nullable|string|max:255',
             'book_now_text' => 'nullable|string|max:50',
-            'book_now_link' => 'nullable|url',
-            'order' => 'integer',
+            'book_now_link' => 'nullable|string|max:255',
+            'order' => 'nullable|integer',
             'is_active' => 'boolean'
         ]);
 
@@ -47,6 +46,10 @@ class PackageController extends Controller
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('packages', 'public');
         }
+
+        // Set default values
+        $data['is_active'] = $request->has('is_active');
+        $data['order'] = $request->order ?? 0;
 
         Package::create($data);
 
@@ -65,17 +68,17 @@ class PackageController extends Controller
             'title' => 'required|string|max:255',
             'destination' => 'required|string|max:255',
             'duration_days' => 'required|integer|min:1',
-            'persons' => 'required|integer|min:1',
+            'persons' => 'required|integer|min:1', // Changed to 'persons'
             'price' => 'required|numeric|min:0',
             'rating' => 'nullable|numeric|min:0|max:5',
             'description' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'hotel_deals_text' => 'nullable|string|max:50',
             'read_more_text' => 'nullable|string|max:50',
-            'read_more_link' => 'nullable|url',
+            'read_more_link' => 'nullable|string|max:255',
             'book_now_text' => 'nullable|string|max:50',
-            'book_now_link' => 'nullable|url',
-            'order' => 'integer',
+            'book_now_link' => 'nullable|string|max:255',
+            'order' => 'nullable|integer',
             'is_active' => 'boolean'
         ]);
 
@@ -84,11 +87,13 @@ class PackageController extends Controller
         // Handle image upload
         if ($request->hasFile('image')) {
             // Delete old image
-            if ($package->image && Storage::exists($package->image)) {
-                Storage::delete($package->image);
+            if ($package->image && Storage::disk('public')->exists($package->image)) {
+                Storage::disk('public')->delete($package->image);
             }
             $data['image'] = $request->file('image')->store('packages', 'public');
         }
+
+        $data['is_active'] = $request->has('is_active');
 
         $package->update($data);
 
@@ -99,8 +104,8 @@ class PackageController extends Controller
     public function destroy(Package $package)
     {
         // Delete image
-        if ($package->image && Storage::exists($package->image)) {
-            Storage::delete($package->image);
+        if ($package->image && Storage::disk('public')->exists($package->image)) {
+            Storage::disk('public')->delete($package->image);
         }
 
         $package->delete();

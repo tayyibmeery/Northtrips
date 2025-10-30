@@ -1,19 +1,19 @@
 <?php
+// app/Models/BlogCategory.php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Service extends Model
+class BlogCategory extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'title',
+        'name',
+        'slug',
         'description',
-        'icon',
-        'icon_color',
         'order',
         'is_active'
     ];
@@ -21,6 +21,11 @@ class Service extends Model
     protected $casts = [
         'is_active' => 'boolean'
     ];
+
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class, 'blog_category_id');
+    }
 
     public function scopeActive($query)
     {
@@ -30,17 +35,5 @@ class Service extends Model
     public function scopeOrdered($query)
     {
         return $query->orderBy('order');
-    }
-
-    // Get icon color or default
-    public function getIconColorAttribute($value)
-    {
-        return $value ?: '#13357B'; // Default primary color
-    }
-
-    // Check if service should be on left or right side
-    public function getPositionAttribute()
-    {
-        return $this->order % 2 == 0 ? 'left' : 'right';
     }
 }

@@ -12,23 +12,35 @@ class Blog extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'excerpt',
         'content',
         'image',
         'published_date',
         'author_name',
+        'blog_category_id',
+        'status',
+        'is_featured',
+        'is_active',
         'likes_count',
         'comments_count',
         'read_more_text',
         'read_more_link',
-        'order',
-        'is_active'
+        'meta_title',
+        'meta_description',
+        'order'
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
-        'published_date' => 'date'
+        'published_date' => 'date',
+        'is_featured' => 'boolean',
+        'is_active' => 'boolean'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(BlogCategory::class, 'blog_category_id');
+    }
 
     public function scopeActive($query)
     {
@@ -42,6 +54,6 @@ class Blog extends Model
 
     public function scopePublished($query)
     {
-        return $query->where('published_date', '<=', now());
+        return $query->where('status', 'published');
     }
 }
