@@ -16,7 +16,7 @@ class AdminUserSeeder extends Seeder
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@travela.com',
-            'password' => bcrypt('password'), // Change this password
+            'password' => bcrypt('12345678'), // Change this password
             'is_admin' => true,
         ]);
     }
