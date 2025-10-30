@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CarouselController;
 use App\Http\Controllers\Admin\CompanySettingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SocialMediaLinkController;
@@ -41,5 +42,8 @@ Route::prefix('admins')->name('admin.')->group(function () {
     Route::put('/company-settings/update', [CompanySettingController::class, 'update'])->name('company-settings.update');
     Route::resource('/social-media-links', SocialMediaLinkController::class)->names('social-media-links');
 
+
+    Route::resource('/carousels', CarouselController::class)->names('carousels');
+    Route::post('/carousels/update-order', [CarouselController::class, 'updateOrder'])->name('carousels.update-order');
 });
 require __DIR__.'/auth.php';
