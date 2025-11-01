@@ -104,7 +104,7 @@ $carousels = Carousel::active()->ordered()->get();
                     {{ $about->button_text }}
                 </a>
                 @else
-                <a class="btn btn-primary rounded-pill py-3 px-5 mt-2" href="{{ route('about') }}">Read More</a>
+                {{-- <a class="btn btn-primary rounded-pill py-3 px-5 mt-2" href="{{ route('about') }}">Read More</a> --}}
                 @endif
             </div>
         </div>
