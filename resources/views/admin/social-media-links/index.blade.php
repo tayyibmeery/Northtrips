@@ -2,7 +2,7 @@
 
 @extends('admin.layout.app')
 
-@section('title', 'Travela - Social Media Links')
+@section('title', 'North Trips & Travel - Social Media Links')
 
 @section('content')
 <div class="container-fluid">

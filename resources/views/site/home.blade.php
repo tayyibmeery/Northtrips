@@ -1,6 +1,6 @@
 @extends('site.layout.app')
 
-@section('title', 'Travela - Home')
+@section('title', 'North Trips & Travel - Home')
 
 @section('content')
 
@@ -48,7 +48,7 @@ $carousels = Carousel::active()->ordered()->get();
                 @if($about->title)
                 <h1 class="mb-4">{!! $about->title !!}</h1>
                 @else
-                <h1 class="mb-4">Welcome to <span class="text-primary">Travela</span></h1>
+                <h1 class="mb-4">Welcome to <span class="text-primary">North Trips & Travel</span></h1>
                 @endif
 
                 @if($about->description1)
@@ -113,12 +113,12 @@ $carousels = Carousel::active()->ordered()->get();
         <div class="row g-5 align-items-center">
             <div class="col-lg-5">
                 <div class="h-100" style="border: 50px solid; border-color: transparent #13357B transparent #13357B;">
-                    <img src="{{ asset('img/about-img.jpg') }}" class="img-fluid w-100 h-100" alt="About Travela">
+                    <img src="{{ asset('img/about-img.jpg') }}" class="img-fluid w-100 h-100" alt="About North Trips & Travel">
                 </div>
             </div>
             <div class="col-lg-7" style="background: linear-gradient(rgba(255, 255, 255, .8), rgba(255, 255, 255, .8)), url(img/about-img-1.png);">
                 <h5 class="section-about-title pe-3">About Us</h5>
-                <h1 class="mb-4">Welcome to <span class="text-primary">Travela</span></h1>
+                <h1 class="mb-4">Welcome to <span class="text-primary">North Trips & Travel</span></h1>
                 <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, dolorum, doloribus sunt dicta, officia voluptatibus libero necessitatibus natus impedit quam ullam assumenda? Id atque iste consectetur. Commodi odit ab saepe!</p>
                 <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium quos voluptatem suscipit neque enim, doloribus ipsum rem eos distinctio, dignissimos nisi saepe nulla? Libero numquam perferendis provident placeat molestiae quia?</p>
                 <div class="row gy-2 gx-4 mb-4">
@@ -1025,7 +1025,7 @@ $packages = Package::active()->ordered()->get();
             </div>
             <div class="col-lg-6">
                 <h1 class="text-white mb-3">Book A Tour Deals</h1>
-                <p class="text-white mb-4">Get <span class="text-warning">50% Off</span> On Your First Adventure Trip With Travela. Get More Deal Offers Here.</p>
+                <p class="text-white mb-4">Get <span class="text-warning">50% Off</span> On Your First Adventure Trip With North Trips & Travel. Get More Deal Offers Here.</p>
                 <form>
                     <div class="row g-3">
                         <div class="col-md-6">

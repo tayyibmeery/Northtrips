@@ -13,10 +13,10 @@ class SiteController extends Controller
         return view('site.home', compact('setting'));
     }
 
-    public function aboutus()
-    {
-        return view('site.aboutus');
-    }
+    // public function aboutus()
+    // {
+    //     return view('site.aboutus');
+    // }
 
 
 

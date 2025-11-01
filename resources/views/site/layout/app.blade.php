@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>@yield('title', 'Travela - Tourism Website Template')</title>
+    <title>@yield('title', 'North Trips & Travel - Tourism Website Template')</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -36,19 +36,19 @@
 
 <body>
 
-@php
-use App\Models\CompanySetting;
-use App\Models\SocialMediaLink;
-use App\Models\Carousel;
-use App\Models\AboutSection;
-use App\Models\Service;
+    @php
+    use App\Models\CompanySetting;
+    use App\Models\SocialMediaLink;
+    use App\Models\Carousel;
+    use App\Models\AboutSection;
+    use App\Models\Service;
 
-$servic = Service::active()->ordered()->get();
-$aboutSections = AboutSection::where('is_active', true)->get();
-$setting = CompanySetting::first();
-$social = SocialMediaLink::all();
-$carousels = Carousel::active()->ordered()->get();
-@endphp
+    $servic = Service::active()->ordered()->get();
+    $aboutSections = AboutSection::where('is_active', true)->get();
+    $setting = CompanySetting::first();
+    $social = SocialMediaLink::all();
+    $carousels = Carousel::active()->ordered()->get();
+    @endphp
 
     @include('site.layout.topbar')
 

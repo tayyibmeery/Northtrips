@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('title', 'Travela - Create Service')
+@section('title', 'North Trips & Travel - Create Service')
 
 @section('content')
 <div class="container-fluid">
