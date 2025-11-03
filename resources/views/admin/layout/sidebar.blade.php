@@ -29,6 +29,31 @@
                     </a>
                 </li>
 
+                <!-- Bookings Section -->
+            <!-- In your sidebar, update the bookings section -->
+<li class="nav-item {{ request()->routeIs('admin.bookings.*') ? 'menu-open' : '' }}">
+    <a href="#" class="nav-link {{ request()->routeIs('admin.bookings.*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-calendar-check"></i>
+        <p>
+            Bookings
+            <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('admin.bookings.index') }}" class="nav-link {{ request()->routeIs('admin.bookings.index') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>All Bookings</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.bookings.statistics') }}" class="nav-link {{ request()->routeIs('admin.bookings.statistics') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Statistics</p>
+            </a>
+        </li>
+    </ul>
+</li>
                 <!-- Settings Section -->
                 <li class="nav-header">SETTINGS</li>
                 <li class="nav-item">
@@ -159,19 +184,30 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="{{ route('admin.blog-categories.index') }}" class="nav-link {{ request()->routeIs('admin.blog-categories.*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tags"></i>
-                        <p>Blog Categories</p>
+                <li class="nav-item {{ request()->routeIs('admin.blog-categories.*') || request()->routeIs('admin.blogs.*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->routeIs('admin.blog-categories.*') || request()->routeIs('admin.blogs.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-blog"></i>
+                        <p>
+                            Blog
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.blog-categories.index') }}" class="nav-link {{ request()->routeIs('admin.blog-categories.*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Categories</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.blogs.index') }}" class="nav-link {{ request()->routeIs('admin.blogs.*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Blog Posts</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a href="{{ route('admin.blogs.index') }}" class="nav-link {{ request()->routeIs('admin.blogs.*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-blog"></i>
-                        <p>Blogs</p>
-                    </a>
-                </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.testimonials.index') }}" class="nav-link {{ request()->routeIs('admin.testimonials.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-comments"></i>
