@@ -25,10 +25,19 @@ use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
 // Public Routes
+// Public Routes
 Route::get('/', [SiteController::class, 'home'])->name('home');
-Route::get('/aboutus', [SiteController::class, 'aboutus'])->name('aboutus');
+Route::get('/about', [SiteController::class, 'about'])->name('about');
+Route::get('/services', [SiteController::class, 'services'])->name('services');
+Route::get('/packages', [SiteController::class, 'packages'])->name('packages');
 Route::get('/blog', [SiteController::class, 'blog'])->name('blog');
-Route::post('/subscribe', [SubscriberController::class, 'subscribe'])->name('subscribe');
+Route::get('/destination', [SiteController::class, 'destination'])->name('destination');
+Route::get('/tour', [SiteController::class, 'tour'])->name('tour');
+Route::get('/booking', [SiteController::class, 'booking'])->name('booking');
+Route::get('/gallery', [SiteController::class, 'gallery'])->name('gallery');
+Route::get('/guides', [SiteController::class, 'guides'])->name('guides');
+Route::get('/testimonial', [SiteController::class, 'testimonial'])->name('testimonial');
+Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
 
 // Auth Routes
 Route::get('/dashboard', function () {

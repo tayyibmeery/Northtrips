@@ -18,25 +18,17 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="name">Name *</label>
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $testimonial->name) }}" required placeholder="Customer name">
-                                    @error('name')
+                                    <label for="client_name">Client Name *</label>
+                                    <input type="text" class="form-control @error('client_name') is-invalid @enderror" id="client_name" name="client_name" value="{{ old('client_name', $testimonial->client_name) }}" required>
+                                    @error('client_name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="designation">Designation *</label>
-                                    <input type="text" class="form-control @error('designation') is-invalid @enderror" id="designation" name="designation" value="{{ old('designation', $testimonial->designation) }}" required placeholder="e.g., Travel Enthusiast, Business Owner">
-                                    @error('designation')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="company">Company</label>
-                                    <input type="text" class="form-control @error('company') is-invalid @enderror" id="company" name="company" value="{{ old('company', $testimonial->company) }}" placeholder="Company name (optional)">
-                                    @error('company')
+                                    <label for="location">Location *</label>
+                                    <input type="text" class="form-control @error('location') is-invalid @enderror" id="location" name="location" value="{{ old('location', $testimonial->location) }}" required>
+                                    @error('location')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -44,54 +36,54 @@
                                 <div class="form-group">
                                     <label for="rating">Rating *</label>
                                     <select class="form-control @error('rating') is-invalid @enderror" id="rating" name="rating" required>
-                                        <option value="">Select Rating</option>
-                                        @for($i = 1; $i <= 5; $i++) <option value="{{ $i }}" {{ old('rating', $testimonial->rating) == $i ? 'selected' : '' }}>
+                                        @for($i = 1; $i <= 5; $i++)
+                                        <option value="{{ $i }}" {{ old('rating', $testimonial->rating) == $i ? 'selected' : '' }}>
                                             {{ $i }} Star{{ $i > 1 ? 's' : '' }}
-                                            </option>
-                                            @endfor
+                                        </option>
+                                        @endfor
                                     </select>
                                     @error('rating')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="order">Display Order</label>
+                                    <input type="number" class="form-control @error('order') is-invalid @enderror" id="order" name="order" value="{{ old('order', $testimonial->order) }}">
+                                    @error('order')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
                             <div class="col-md-6">
-                                @if($testimonial->image)
-                                <div class="form-group">
-                                    <label>Current Image</label>
-                                    <div>
-                                        <img src="{{ asset('storage/' . $testimonial->image) }}" alt="{{ $testimonial->name }}" class="img-fluid mb-2" style="max-height: 200px; border-radius: 50%;">
-                                    </div>
-                                </div>
-                                @endif
-
                                 <div class="form-group">
                                     <label for="image">Profile Image</label>
                                     <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image" name="image">
+                                    <small class="form-text text-muted">
+                                        Leave empty to keep current image
+                                    </small>
+                                    @if($testimonial->image)
+                                    <div class="mt-2">
+                                        <img src="{{ $testimonial->image_url }}" alt="Current image" class="img-fluid rounded-circle" style="width: 100px; height: 100px; object-fit: cover;">
+                                    </div>
+                                    @endif
                                     @error('image')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="testimonial">Testimonial Text *</label>
-                                    <textarea class="form-control @error('testimonial') is-invalid @enderror" id="testimonial" name="testimonial" rows="6" required placeholder="What our customer says about us...">{{ old('testimonial', $testimonial->testimonial) }}</textarea>
-                                    @error('testimonial')
+                                    <label for="comment">Testimonial Text *</label>
+                                    <textarea class="form-control @error('comment') is-invalid @enderror" id="comment" name="comment" rows="6" required>{{ old('comment', $testimonial->comment) }}</textarea>
+                                    @error('comment')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="form-group">
                                     <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" {{ $testimonial->is_active ? 'checked' : '' }}>
+                                        <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" {{ old('is_active', $testimonial->is_active) ? 'checked' : '' }}>
                                         <label class="custom-control-label" for="is_active">Active</label>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="is_featured" name="is_featured" value="1" {{ old('is_featured', $testimonial->is_featured) ? 'checked' : '' }}>
-                                        <label class="custom-control-label" for="is_featured">Featured Testimonial</label>
                                     </div>
                                 </div>
                             </div>

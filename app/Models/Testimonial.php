@@ -5,6 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Testimonial extends Model
 {
@@ -21,7 +22,8 @@ class Testimonial extends Model
     ];
 
     protected $casts = [
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'rating' => 'integer'
     ];
 
     public function scopeActive($query)
@@ -32,5 +34,20 @@ class Testimonial extends Model
     public function scopeOrdered($query)
     {
         return $query->orderBy('order');
+    }
+
+    // Accessor for image URL
+    public function getImageUrlAttribute()
+    {
+        if ($this->image) {
+            return Storage::url($this->image);
+        }
+        return asset('img/testimonial-default.jpg');
+    }
+
+    // Accessor for star rating
+    public function getStarsAttribute()
+    {
+        return range(1, 5);
     }
 }

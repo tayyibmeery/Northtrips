@@ -26,21 +26,28 @@ class TestimonialController extends Controller
         $request->validate([
             'client_name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
-            'comment' => 'required|string',
+            'comment' => 'required|string|min:10',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'rating' => 'required|integer|min:1|max:5',
-            'order' => 'integer',
-            'is_active' => 'boolean'
+            'order' => 'nullable|integer',
+            'is_active' => 'sometimes|boolean'
         ]);
-
-        $data = $request->except('image');
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('testimonials', 'public');
+            $imagePath = $request->file('image')->store('testimonials', 'public');
         }
 
-        Testimonial::create($data);
+        // Create testimonial
+        Testimonial::create([
+            'client_name' => $request->client_name,
+            'location' => $request->location,
+            'comment' => $request->comment,
+            'image' => $imagePath,
+            'rating' => $request->rating,
+            'order' => $request->order ?? 0,
+            'is_active' => $request->has('is_active') ? 1 : 0
+        ]);
 
         return redirect()->route('admin.testimonials.index')
             ->with('success', 'Testimonial created successfully.');
@@ -56,20 +63,27 @@ class TestimonialController extends Controller
         $request->validate([
             'client_name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
-            'comment' => 'required|string',
+            'comment' => 'required|string|min:10',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'rating' => 'required|integer|min:1|max:5',
-            'order' => 'integer',
-            'is_active' => 'boolean'
+            'order' => 'nullable|integer',
+            'is_active' => 'sometimes|boolean'
         ]);
 
-        $data = $request->except('image');
+        $data = [
+            'client_name' => $request->client_name,
+            'location' => $request->location,
+            'comment' => $request->comment,
+            'rating' => $request->rating,
+            'order' => $request->order ?? 0,
+            'is_active' => $request->has('is_active') ? 1 : 0
+        ];
 
-        // Handle image upload
+        // Handle image upload if new image provided
         if ($request->hasFile('image')) {
             // Delete old image
-            if ($testimonial->image && Storage::exists($testimonial->image)) {
-                Storage::delete($testimonial->image);
+            if ($testimonial->image && Storage::disk('public')->exists($testimonial->image)) {
+                Storage::disk('public')->delete($testimonial->image);
             }
             $data['image'] = $request->file('image')->store('testimonials', 'public');
         }
@@ -83,8 +97,8 @@ class TestimonialController extends Controller
     public function destroy(Testimonial $testimonial)
     {
         // Delete image
-        if ($testimonial->image && Storage::exists($testimonial->image)) {
-            Storage::delete($testimonial->image);
+        if ($testimonial->image && Storage::disk('public')->exists($testimonial->image)) {
+            Storage::disk('public')->delete($testimonial->image);
         }
 
         $testimonial->delete();

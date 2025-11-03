@@ -1,29 +1,26 @@
-@extends('site.layout.app')
-@section('title', 'North Trips & Travel - Home')
-@section('content')
+<!-- Home Page Components -->
 @include('site.components.About')
-<!-- Services Start -->
 @include('site.components.Services')
-<!-- Destination Start -->
 @include('site.components.Destination')
-<!-- Explore Tour Start -->
 @include('site.components.Explore')
-<!-- Packages Start -->
 @include('site.components.Packages')
-<!-- Gallery Start -->
 @include('site.components.Gallery')
-<!-- Tour Booking Start -->
 @include('site.components.Booking')
-<!-- TravelGuide Start -->
 @include('site.components.TravelGuide')
-<!-- Blog Start -->
 @include('site.components.Blog')
-<!-- Testimonial Start -->
 @include('site.components.Testimonial')
-<!-- Subscribe Start -->
 @include('site.components.Subscribe')
-@endsection
 
 @push('scripts')
+<script>
+    $(document).ready(function() {
+        // Home page specific initializations
+        console.log('Home page content loaded via AJAX');
 
+        // Make sure carousel is working
+        if ($('#carouselId').length) {
+            $('#carouselId').carousel();
+        }
+    });
+</script>
 @endpush
