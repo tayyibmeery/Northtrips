@@ -28,7 +28,7 @@ class DestinationController extends Controller
         $request->validate([
             'category_id' => 'required|exists:destination_categories,id',
             'title' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'photos_count' => 'integer|min:1',
             'button_text' => 'nullable|string|max:50',
             'button_link' => 'nullable|url',
@@ -40,7 +40,19 @@ class DestinationController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('destinations', 'public');
+            $imageDirectory = public_path('images/destinations');
+
+            // Create directory if it doesn't exist
+            if (!file_exists($imageDirectory)) {
+                mkdir($imageDirectory, 0755, true);
+            }
+
+            $imageFile = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $imageFile->move($imageDirectory, $imageName);
+            $data['image'] = $imageName;
         }
 
         Destination::create($data);
@@ -60,7 +72,7 @@ class DestinationController extends Controller
         $request->validate([
             'category_id' => 'required|exists:destination_categories,id',
             'title' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'photos_count' => 'integer|min:1',
             'button_text' => 'nullable|string|max:50',
             'button_link' => 'nullable|url',
@@ -72,11 +84,28 @@ class DestinationController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete old image
-            if ($destination->image && Storage::exists($destination->image)) {
-                Storage::delete($destination->image);
+            $imageDirectory = public_path('images/destinations');
+
+            // Create directory if it doesn't exist
+            if (!file_exists($imageDirectory)) {
+                mkdir($imageDirectory, 0755, true);
             }
-            $data['image'] = $request->file('image')->store('destinations', 'public');
+
+            // Delete old image if exists
+            if ($destination->image) {
+                $oldImagePath = $imageDirectory . '/' . $destination->image;
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            // Store new image
+            $imageFile = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $imageFile->move($imageDirectory, $imageName);
+            $data['image'] = $imageName;
         }
 
         $destination->update($data);
@@ -88,8 +117,11 @@ class DestinationController extends Controller
     public function destroy(Destination $destination)
     {
         // Delete image
-        if ($destination->image && Storage::exists($destination->image)) {
-            Storage::delete($destination->image);
+        if ($destination->image) {
+            $imagePath = public_path('images/destinations/' . $destination->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
 
         $destination->delete();

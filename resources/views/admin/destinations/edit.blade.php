@@ -61,7 +61,7 @@
                                     </small>
                                     @if($destination->image)
                                     <div class="mt-2">
-                                        <img src="{{ Storage::url($destination->image) }}" alt="Current Image" style="max-height: 150px; max-width: 100%; object-fit: cover;">
+                                        <img src="{{ asset('images/destinations/' . $destination->image) }}" alt="Current Image" style="max-height: 150px; max-width: 100%; object-fit: cover;">
                                     </div>
                                     @endif
                                 </div>

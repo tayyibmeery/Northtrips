@@ -40,7 +40,7 @@
                                 @foreach($allDestinations[0] as $destination)
                                 <div class="col-lg-6">
                                     <div class="destination-img position-relative overflow-hidden rounded">
-                                        <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $destination->image) }}" alt="{{ $destination->title }}" style="height: 300px; object-fit: cover;">
+                                        <img class="img-fluid rounded w-100" src="{{ asset('images/destinations/' . $destination->image) }}" alt="{{ $destination->title }}" style="height: 300px; object-fit: cover;">
                                         <div class="destination-overlay p-4">
                                             <a href="#" class="btn btn-primary text-white rounded-pill border py-2 px-3">{{ $destination->photos_count ?? 20 }} Photos</a>
                                             <h4 class="text-white mb-2 mt-3">{{ $destination->title }}</h4>
@@ -49,7 +49,7 @@
                                             </a>
                                         </div>
                                         <div class="search-icon">
-                                            <a href="{{ asset('storage/' . $destination->image) }}" data-lightbox="destination-{{ $destination->id }}">
+                                            <a href="{{ asset('images/destinations/' . $destination->image) }}" data-lightbox="destination-{{ $destination->id }}">
                                                 <i class="fa fa-plus-square fa-1x btn btn-light btn-lg-square text-primary"></i>
                                             </a>
                                         </div>
@@ -63,7 +63,7 @@
                         @if(isset($allDestinations[1]) && $allDestinations[1]->count() > 0)
                         <div class="col-xl-4">
                             <div class="destination-img position-relative overflow-hidden rounded h-100">
-                                <img class="img-fluid rounded w-100 h-100" src="{{ asset('storage/' . $allDestinations[1]->first()->image) }}" style="object-fit: cover; min-height: 300px;" alt="{{ $allDestinations[1]->first()->title }}">
+                                <img class="img-fluid rounded w-100 h-100" src="{{ asset('images/destinations/' . $allDestinations[1]->first()->image) }}" style="object-fit: cover; min-height: 300px;" alt="{{ $allDestinations[1]->first()->title }}">
                                 <div class="destination-overlay p-4">
                                     <a href="#" class="btn btn-primary text-white rounded-pill border py-2 px-3">{{ $allDestinations[1]->first()->photos_count ?? 20 }} Photos</a>
                                     <h4 class="text-white mb-2 mt-3">{{ $allDestinations[1]->first()->title }}</h4>
@@ -72,7 +72,7 @@
                                     </a>
                                 </div>
                                 <div class="search-icon">
-                                    <a href="{{ asset('storage/' . $allDestinations[1]->first()->image) }}" data-lightbox="destination-{{ $allDestinations[1]->first()->id }}">
+                                    <a href="{{ asset('images/destinations/' . $allDestinations[1]->first()->image) }}" data-lightbox="destination-{{ $allDestinations[1]->first()->id }}">
                                         <i class="fa fa-plus-square fa-1x btn btn-light btn-lg-square text-primary"></i>
                                     </a>
                                 </div>
@@ -86,7 +86,7 @@
                             @foreach($allDestinations[2] as $destination)
                             <div class="col-lg-4">
                                 <div class="destination-img position-relative overflow-hidden rounded">
-                                    <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $destination->image) }}" alt="{{ $destination->title }}" style="height: 250px; object-fit: cover;">
+                                    <img class="img-fluid rounded w-100" src="{{ asset('images/destinations/' . $destination->image) }}" alt="{{ $destination->title }}" style="height: 250px; object-fit: cover;">
                                     <div class="destination-overlay p-4">
                                         <a href="#" class="btn btn-primary text-white rounded-pill border py-2 px-3">{{ $destination->photos_count ?? 20 }} Photos</a>
                                         <h4 class="text-white mb-2 mt-3">{{ $destination->title }}</h4>
@@ -95,7 +95,7 @@
                                         </a>
                                     </div>
                                     <div class="search-icon">
-                                        <a href="{{ asset('storage/' . $destination->image) }}" data-lightbox="destination-{{ $destination->id }}">
+                                        <a href="{{ asset('images/destinations/' . $destination->image) }}" data-lightbox="destination-{{ $destination->id }}">
                                             <i class="fa fa-plus-square fa-1x btn btn-light btn-lg-square text-primary"></i>
                                         </a>
                                     </div>
@@ -110,7 +110,7 @@
                             @foreach($destinations as $destination)
                             <div class="col-lg-4 col-md-6">
                                 <div class="destination-img position-relative overflow-hidden rounded">
-                                    <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $destination->image) }}" alt="{{ $destination->title }}" style="height: 250px; object-fit: cover;">
+                                    <img class="img-fluid rounded w-100" src="{{ asset('images/destinations/' . $destination->image) }}" alt="{{ $destination->title }}" style="height: 250px; object-fit: cover;">
                                     <div class="destination-overlay p-4">
                                         <a href="#" class="btn btn-primary text-white rounded-pill border py-2 px-3">{{ $destination->photos_count ?? 20 }} Photos</a>
                                         <h4 class="text-white mb-2 mt-3">{{ $destination->title }}</h4>
@@ -119,7 +119,7 @@
                                         </a>
                                     </div>
                                     <div class="search-icon">
-                                        <a href="{{ asset('storage/' . $destination->image) }}" data-lightbox="destination-{{ $destination->id }}">
+                                        <a href="{{ asset('images/destinations/' . $destination->image) }}" data-lightbox="destination-{{ $destination->id }}">
                                             <i class="fa fa-plus-square fa-1x btn btn-light btn-lg-square text-primary"></i>
                                         </a>
                                     </div>
@@ -143,7 +143,7 @@
                         @foreach($categoryDestinations as $destination)
                         <div class="col-lg-6">
                             <div class="destination-img position-relative overflow-hidden rounded">
-                                <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $destination->image) }}" alt="{{ $destination->title }}" style="height: 300px; object-fit: cover;">
+                                <img class="img-fluid rounded w-100" src="{{ asset('images/destinations/' . $destination->image) }}" alt="{{ $destination->title }}" style="height: 300px; object-fit: cover;">
                                 <div class="destination-overlay p-4">
                                     <a href="#" class="btn btn-primary text-white rounded-pill border py-2 px-3">{{ $destination->photos_count ?? 20 }} Photos</a>
                                     <h4 class="text-white mb-2 mt-3">{{ $destination->title }}</h4>
@@ -152,7 +152,7 @@
                                     </a>
                                 </div>
                                 <div class="search-icon">
-                                    <a href="{{ asset('storage/' . $destination->image) }}" data-lightbox="destination-{{ $destination->id }}">
+                                    <a href="{{ asset('images/destinations/' . $destination->image) }}" data-lightbox="destination-{{ $destination->id }}">
                                         <i class="fa fa-plus-square fa-1x btn btn-light btn-lg-square text-primary"></i>
                                     </a>
                                 </div>
@@ -287,4 +287,3 @@
     </div>
 </div>
 <!-- Destination End -->
-

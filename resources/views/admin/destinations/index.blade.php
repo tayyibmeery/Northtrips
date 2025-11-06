@@ -41,7 +41,7 @@
                                     <td>{{ $destination->id }}</td>
                                     <td>
                                         @if($destination->image)
-                                        <img src="{{ Storage::url($destination->image) }}" alt="Destination Image" style="max-height: 60px; max-width: 100px; object-fit: cover;">
+                                        <img src="{{ asset('images/destinations/' . $destination->image) }}" alt="Destination Image" style="max-height: 60px; max-width: 100px; object-fit: cover;">
                                         @else
                                         No Image
                                         @endif
