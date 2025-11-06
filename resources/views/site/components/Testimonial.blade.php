@@ -14,7 +14,7 @@
                     <p class="text-center mb-5">{{ $testimonial->comment }}</p>
                 </div>
                 <div class="testimonial-img p-1">
-                    <img src="{{ $testimonial->image_url }}" class="img-fluid rounded-circle" alt="{{ $testimonial->client_name }}" style="width: 80px; height: 80px; object-fit: cover;">
+                    <img src="{{ asset('images/testimonials/' . $testimonial->image) }}" class="img-fluid rounded-circle" alt="{{ $testimonial->client_name }}" style="width: 80px; height: 80px; object-fit: cover;">
                 </div>
                 <div style="margin-top: -35px;">
                     <h5 class="mb-0">{{ $testimonial->client_name }}</h5>

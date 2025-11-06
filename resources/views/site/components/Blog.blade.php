@@ -7,15 +7,13 @@
             <p class="mb-0">Discover amazing travel stories, tips, and guides from our experienced travelers. Get inspired for your next adventure with our latest blog posts.</p>
         </div>
 
-
-
         <div class="row g-4 justify-content-center">
             @foreach($blogs as $blog)
             <div class="col-lg-4 col-md-6">
                 <div class="blog-item">
                     <div class="blog-img">
                         <div class="blog-img-inner">
-                            <img class="img-fluid w-100 rounded-top" src="{{ Storage::url($blog->image) }}" alt="{{ $blog->title }}" style="height: 250px; object-fit: cover;">
+                            <img class="img-fluid w-100 rounded-top" src="{{ asset('images/blogs/' . $blog->image) }}" alt="{{ $blog->title }}" style="height: 250px; object-fit: cover;">
                             <div class="blog-icon">
                                 <a href="{{ $blog->read_more_link ?: '#' }}" class="my-auto">
                                     <i class="fas fa-link fa-2x text-white"></i>
@@ -62,6 +60,8 @@
     </div>
 </div>
 <!-- Blog End -->
+
+@push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Add smooth hover effects
@@ -88,4 +88,4 @@
     });
 
 </script>
-
+@endpush

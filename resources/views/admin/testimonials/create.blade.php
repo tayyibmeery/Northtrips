@@ -58,13 +58,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="image">Profile Image *</label>
-                                    <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image" name="image" required>
-                                    <small class="form-text text-muted">
-                                        Recommended size: 200x200px, Max: 2MB
-                                    </small>
+                                    <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image" name="image" accept="image/*" required>
                                     @error('image')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                    <small class="form-text text-muted">
+                                        Recommended size: 200x200px, Max: 2MB
+                                    </small>
                                 </div>
 
                                 <div class="form-group">
@@ -76,7 +76,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="custom-control custom-switch">
+                                    <div class="custom-control custom-switch mt-4">
                                         <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }}>
                                         <label class="custom-control-label" for="is_active">Active</label>
                                     </div>

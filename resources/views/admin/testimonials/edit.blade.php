@@ -58,18 +58,19 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="image">Profile Image</label>
-                                    <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image" name="image">
+                                    <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image" name="image" accept="image/*">
+                                    @error('image')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                     <small class="form-text text-muted">
                                         Leave empty to keep current image
                                     </small>
                                     @if($testimonial->image)
                                     <div class="mt-2">
-                                        <img src="{{ $testimonial->image_url }}" alt="Current image" class="img-fluid rounded-circle" style="width: 100px; height: 100px; object-fit: cover;">
+                                        <img src="{{ asset('images/testimonials/' . $testimonial->image) }}" alt="Current Image" class="img-fluid rounded-circle" style="width: 100px; height: 100px; object-fit: cover;">
+                                        <p class="text-muted mt-1">Current Image</p>
                                     </div>
                                     @endif
-                                    @error('image')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
                                 </div>
 
                                 <div class="form-group">
@@ -81,8 +82,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" {{ old('is_active', $testimonial->is_active) ? 'checked' : '' }}>
+                                    <div class="custom-control custom-switch mt-4">
+                                        <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" {{ $testimonial->is_active ? 'checked' : '' }}>
                                         <label class="custom-control-label" for="is_active">Active</label>
                                     </div>
                                 </div>

@@ -42,7 +42,11 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
-                                        <img src="{{ $testimonial->image_url }}" alt="{{ $testimonial->client_name }}" class="img-fluid rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                                        @if($testimonial->image)
+                                        <img src="{{ asset('images/testimonials/' . $testimonial->image) }}" alt="{{ $testimonial->client_name }}" class="img-fluid rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                                        @else
+                                        <span class="text-muted">No Image</span>
+                                        @endif
                                     </td>
                                     <td>{{ $testimonial->client_name }}</td>
                                     <td>{{ $testimonial->location }}</td>

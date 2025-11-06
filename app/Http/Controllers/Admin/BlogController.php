@@ -30,7 +30,7 @@ class BlogController extends Controller
             'slug' => 'required|string|max:255|unique:blogs,slug',
             'excerpt' => 'required|string',
             'content' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'published_date' => 'required|date',
             'author_name' => 'required|string|max:255',
             'blog_category_id' => 'required|exists:blog_categories,id',
@@ -52,7 +52,19 @@ class BlogController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('blogs', 'public');
+            $imageDirectory = public_path('images/blogs');
+
+            // Create directory if it doesn't exist
+            if (!file_exists($imageDirectory)) {
+                mkdir($imageDirectory, 0755, true);
+            }
+
+            $imageFile = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $imageFile->move($imageDirectory, $imageName);
+            $data['image'] = $imageName;
         }
 
         Blog::create($data);
@@ -74,7 +86,7 @@ class BlogController extends Controller
             'slug' => 'required|string|max:255|unique:blogs,slug,' . $blog->id,
             'excerpt' => 'required|string',
             'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'published_date' => 'required|date',
             'author_name' => 'required|string|max:255',
             'status' => 'required|in:draft,published',
@@ -102,11 +114,28 @@ class BlogController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete old image
-            if ($blog->image && Storage::disk('public')->exists($blog->image)) {
-                Storage::disk('public')->delete($blog->image);
+            $imageDirectory = public_path('images/blogs');
+
+            // Create directory if it doesn't exist
+            if (!file_exists($imageDirectory)) {
+                mkdir($imageDirectory, 0755, true);
             }
-            $data['image'] = $request->file('image')->store('blogs', 'public');
+
+            // Delete old image if exists
+            if ($blog->image) {
+                $oldImagePath = $imageDirectory . '/' . $blog->image;
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            // Store new image
+            $imageFile = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $imageFile->move($imageDirectory, $imageName);
+            $data['image'] = $imageName;
         }
 
         $blog->update($data);
@@ -118,8 +147,11 @@ class BlogController extends Controller
     public function destroy(Blog $blog)
     {
         // Delete image
-        if ($blog->image && Storage::disk('public')->exists($blog->image)) {
-            Storage::disk('public')->delete($blog->image);
+        if ($blog->image) {
+            $imagePath = public_path('images/blogs/' . $blog->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
 
         $blog->delete();

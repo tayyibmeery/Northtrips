@@ -32,10 +32,12 @@
                                     <th>Image</th>
                                     <th>Title</th>
                                     <th>Category</th>
+                                    <th>Author</th>
                                     <th>Status</th>
                                     <th>Featured</th>
-                                    <th>Views</th>
-                                    <th>Created At</th>
+                                    <th>Likes</th>
+                                    <th>Comments</th>
+                                    <th>Published Date</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -44,14 +46,15 @@
                                 <tr>
                                     <td>{{ $blog->id }}</td>
                                     <td>
-                                        @if($blog->featured_image)
-                                        <img src="{{ asset('storage/' . $blog->featured_image) }}" alt="{{ $blog->title }}" style="width: 50px; height: 50px; object-fit: cover;">
+                                        @if($blog->image)
+                                        <img src="{{ asset('images/blogs/' . $blog->image) }}" alt="{{ $blog->title }}" style="width: 50px; height: 50px; object-fit: cover;" class="img-thumbnail">
                                         @else
                                         <span class="text-muted">No Image</span>
                                         @endif
                                     </td>
                                     <td>{{ Str::limit($blog->title, 50) }}</td>
                                     <td>{{ $blog->category->name ?? 'Uncategorized' }}</td>
+                                    <td>{{ $blog->author_name }}</td>
                                     <td>
                                         <span class="badge badge-{{ $blog->status == 'published' ? 'success' : 'secondary' }}">
                                             {{ ucfirst($blog->status) }}
@@ -62,8 +65,9 @@
                                             {{ $blog->is_featured ? 'Yes' : 'No' }}
                                         </span>
                                     </td>
-                                    <td>{{ $blog->views }}</td>
-                                    <td>{{ $blog->created_at->format('M d, Y') }}</td>
+                                    <td>{{ $blog->likes_count ?: 0 }}</td>
+                                    <td>{{ $blog->comments_count ?: 0 }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($blog->published_date)->format('M d, Y') }}</td>
                                     <td>
                                         <a href="{{ route('admin.blogs.edit', $blog->id) }}" class="btn btn-sm btn-warning">
                                             <i class="fas fa-edit"></i>
