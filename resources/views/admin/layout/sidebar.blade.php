@@ -2,8 +2,14 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('admin.index') }}" class="brand-link">
-        <img src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="North Trips & Travel Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">North Trips & Travel Admin</span>
+     
+        @php
+            $companySettings = \App\Models\CompanySetting::first();
+            $logoPath = $companySettings && $companySettings->logo ? asset('images/CompanySetting/' . $companySettings->logo) : asset('admin/dist/img/AdminLTELogo.png');
+            $companyName = $companySettings && $companySettings->name ? $companySettings->name : 'North Trips & Travel';
+        @endphp
+        <img src="{{ $logoPath }}" alt="{{ $companyName }} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">{{ $companyName }}</span>
     </a>
 
     <!-- Sidebar -->
@@ -11,10 +17,11 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{ asset('admin/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
                 <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                <small class="text-success"><i class="fas fa-circle text-success"></i> Online</small>
             </div>
         </div>
 
@@ -29,33 +36,8 @@
                     </a>
                 </li>
 
-                <!-- Bookings Section -->
-            <!-- In your sidebar, update the bookings section -->
-<li class="nav-item {{ request()->routeIs('admin.bookings.*') ? 'menu-open' : '' }}">
-    <a href="#" class="nav-link {{ request()->routeIs('admin.bookings.*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-calendar-check"></i>
-        <p>
-            Bookings
-            <i class="right fas fa-angle-left"></i>
-        </p>
-    </a>
-    <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="{{ route('admin.bookings.index') }}" class="nav-link {{ request()->routeIs('admin.bookings.index') ? 'active' : '' }}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>All Bookings</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('admin.bookings.statistics') }}" class="nav-link {{ request()->routeIs('admin.bookings.statistics') ? 'active' : '' }}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Statistics</p>
-            </a>
-        </li>
-    </ul>
-</li>
-                <!-- Settings Section -->
-                <li class="nav-header">SETTINGS</li>
+                <!-- Company Settings - Moved to top -->
+                <li class="nav-header">COMPANY SETTINGS</li>
                 <li class="nav-item">
                     <a href="{{ route('admin.company-settings.edit') }}" class="nav-link {{ request()->routeIs('admin.company-settings.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cog"></i>
@@ -69,29 +51,70 @@
                     </a>
                 </li>
 
+                <!-- Bookings Section -->
+                <li class="nav-header">BOOKINGS MANAGEMENT</li>
+                <li class="nav-item {{ request()->routeIs('admin.bookings.*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->routeIs('admin.bookings.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-calendar-check"></i>
+                        <p>
+                            Bookings
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.bookings.index') }}" class="nav-link {{ request()->routeIs('admin.bookings.index') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All Bookings</p>
+                                @if($pendingBookingsCount ?? 0 > 0)
+                                <span class="badge badge-warning right">{{ $pendingBookingsCount }}</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.bookings.statistics') }}" class="nav-link {{ request()->routeIs('admin.bookings.statistics') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Statistics</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Content Management -->
+                <li class="nav-header">CONTENT MANAGEMENT</li>
+
                 <!-- Homepage Section -->
-                <li class="nav-header">HOMEPAGE</li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.carousels.index') }}" class="nav-link {{ request()->routeIs('admin.carousels.*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-images"></i>
-                        <p>Carousel</p>
+                <li class="nav-item {{ request()->routeIs('admin.carousels.*') || request()->routeIs('admin.about-sections.*') || request()->routeIs('admin.services.*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->routeIs('admin.carousels.*') || request()->routeIs('admin.about-sections.*') || request()->routeIs('admin.services.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Homepage
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.about-sections.index') }}" class="nav-link {{ request()->routeIs('admin.about-sections.*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-info-circle"></i>
-                        <p>About Sections</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.services.index') }}" class="nav-link {{ request()->routeIs('admin.services.*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-concierge-bell"></i>
-                        <p>Services</p>
-                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.carousels.index') }}" class="nav-link {{ request()->routeIs('admin.carousels.*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Carousel</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.about-sections.index') }}" class="nav-link {{ request()->routeIs('admin.about-sections.*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>About Sections</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.services.index') }}" class="nav-link {{ request()->routeIs('admin.services.*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Services</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <!-- Destinations Section -->
-                <li class="nav-header">DESTINATIONS</li>
                 <li class="nav-item {{ request()->routeIs('admin.destination-categories.*') || request()->routeIs('admin.destinations.*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->routeIs('admin.destination-categories.*') || request()->routeIs('admin.destinations.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-map-marker-alt"></i>
@@ -117,12 +140,11 @@
                 </li>
 
                 <!-- Tours Section -->
-                <li class="nav-header">TOURS</li>
-                <li class="nav-item {{ request()->routeIs('admin.tour-categories.*') || request()->routeIs('admin.explore-tours.*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ request()->routeIs('admin.tour-categories.*') || request()->routeIs('admin.explore-tours.*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->routeIs('admin.tour-categories.*') || request()->routeIs('admin.explore-tours.*') || request()->routeIs('admin.packages.*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->routeIs('admin.tour-categories.*') || request()->routeIs('admin.explore-tours.*') || request()->routeIs('admin.packages.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-suitcase"></i>
                         <p>
-                            Explore Tours
+                            Tours & Packages
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -139,18 +161,16 @@
                                 <p>Explore Tours</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.packages.index') }}" class="nav-link {{ request()->routeIs('admin.packages.*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Packages</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a href="{{ route('admin.packages.index') }}" class="nav-link {{ request()->routeIs('admin.packages.*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-gift"></i>
-                        <p>Packages</p>
-                    </a>
-                </li>
-
                 <!-- Gallery Section -->
-                <li class="nav-header">GALLERY</li>
                 <li class="nav-item {{ request()->routeIs('admin.gallery-categories.*') || request()->routeIs('admin.galleries.*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->routeIs('admin.gallery-categories.*') || request()->routeIs('admin.galleries.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-images"></i>
@@ -176,27 +196,25 @@
                 </li>
 
                 <!-- Content Section -->
-                <li class="nav-header">CONTENT</li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.travel-guides.index') }}" class="nav-link {{ request()->routeIs('admin.travel-guides.*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-user-tie"></i>
-                        <p>Travel Guides</p>
-                    </a>
-                </li>
-
-                <li class="nav-item {{ request()->routeIs('admin.blog-categories.*') || request()->routeIs('admin.blogs.*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ request()->routeIs('admin.blog-categories.*') || request()->routeIs('admin.blogs.*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-blog"></i>
+                <li class="nav-item {{ request()->routeIs('admin.blog-categories.*') || request()->routeIs('admin.blogs.*') || request()->routeIs('admin.travel-guides.*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->routeIs('admin.blog-categories.*') || request()->routeIs('admin.blogs.*') || request()->routeIs('admin.travel-guides.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-file-alt"></i>
                         <p>
-                            Blog
+                            Content
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="{{ route('admin.travel-guides.index') }}" class="nav-link {{ request()->routeIs('admin.travel-guides.*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Travel Guides</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('admin.blog-categories.index') }}" class="nav-link {{ request()->routeIs('admin.blog-categories.*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Categories</p>
+                                <p>Blog Categories</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -205,17 +223,16 @@
                                 <p>Blog Posts</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.testimonials.index') }}" class="nav-link {{ request()->routeIs('admin.testimonials.*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Testimonials</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a href="{{ route('admin.testimonials.index') }}" class="nav-link {{ request()->routeIs('admin.testimonials.*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-comments"></i>
-                        <p>Testimonials</p>
-                    </a>
-                </li>
-
-                <!-- Subscribers -->
+                <!-- Newsletter -->
                 <li class="nav-header">NEWSLETTER</li>
                 <li class="nav-item">
                     <a href="{{ route('admin.subscribers.index') }}" class="nav-link {{ request()->routeIs('admin.subscribers.*') ? 'active' : '' }}">
@@ -224,12 +241,12 @@
                     </a>
                 </li>
 
-                <!-- User Profile -->
+                <!-- Account Section -->
                 <li class="nav-header">ACCOUNT</li>
                 <li class="nav-item">
                     <a href="{{ route('profile.edit') }}" class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>Profile</p>
+                        <i class="nav-icon fas fa-user-cog"></i>
+                        <p>Profile Settings</p>
                     </a>
                 </li>
                 <li class="nav-item">
