@@ -45,7 +45,7 @@
                                     <td>{{ $guide->designation }}</td>
                                     <td>
                                         @if($guide->image)
-                                        <img src="{{ Storage::url($guide->image) }}" alt="{{ $guide->name }}" style="width: 50px; height: 50px; object-fit: cover;" class="rounded">
+                                        <img src="{{ asset('images/travel-guides/' . $guide->image) }}" alt="{{ $guide->name }}" style="width: 50px; height: 50px; object-fit: cover;" class="rounded img-thumbnail">
                                         @else
                                         <span class="text-muted">No image</span>
                                         @endif

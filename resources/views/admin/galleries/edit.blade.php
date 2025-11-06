@@ -37,19 +37,39 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="button_text">Button Text</label>
+                                    <input type="text" class="form-control @error('button_text') is-invalid @enderror" id="button_text" name="button_text" value="{{ old('button_text', $gallery->button_text) }}" placeholder="e.g., View More">
+                                    @error('button_text')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="button_link">Button Link</label>
+                                    <input type="url" class="form-control @error('button_link') is-invalid @enderror" id="button_link" name="button_link" value="{{ old('button_link', $gallery->button_link) }}" placeholder="e.g., https://example.com/gallery">
+                                    @error('button_link')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="image">Gallery Image</label>
                                     <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image" name="image" accept="image/*">
-                                    @if($gallery->image)
-                                    <div class="mt-2">
-                                        <img src="{{ asset('storage/' . $gallery->image) }}" alt="{{ $gallery->title }}" style="max-width: 200px; max-height: 150px;">
-                                    </div>
-                                    @endif
                                     @error('image')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                    <small class="form-text text-muted">
+                                        Leave empty to keep current image. Recommended size: 800x600px
+                                    </small>
+                                    @if($gallery->image)
+                                    <div class="mt-2">
+                                        <img src="{{ asset('images/galleries/' . $gallery->image) }}" alt="Current Image" style="max-height: 150px; max-width: 100%; object-fit: cover;" class="img-thumbnail">
+                                        <p class="text-muted mt-1">Current Image</p>
+                                    </div>
+                                    @endif
                                 </div>
 
                                 <div class="form-group">
@@ -58,6 +78,13 @@
                                     @error('order')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch mt-4">
+                                        <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" {{ $gallery->is_active ? 'checked' : '' }}>
+                                        <label class="custom-control-label" for="is_active">Active</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -68,13 +95,6 @@
                             @error('description')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" {{ $gallery->is_active ? 'checked' : '' }}>
-                                <label class="custom-control-label" for="is_active">Active</label>
-                            </div>
                         </div>
 
                         <div class="form-group">

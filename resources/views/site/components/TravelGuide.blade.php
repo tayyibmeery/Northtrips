@@ -6,14 +6,13 @@
             <h1 class="mb-0">Meet Our Guide</h1>
         </div>
 
-
         <div class="row g-4">
             @foreach($guides as $guide)
             <div class="col-md-6 col-lg-3">
                 <div class="guide-item">
                     <div class="guide-img">
                         <div class="guide-img-efects">
-                            <img src="{{ Storage::url($guide->image) }}" class="img-fluid w-100 rounded-top" alt="{{ $guide->name }}" style="height: 300px; object-fit: cover;">
+                            <img src="{{ asset('images/travel-guides/' . $guide->image) }}" class="img-fluid w-100 rounded-top" alt="{{ $guide->name }}" style="height: 300px; object-fit: cover;">
                         </div>
                         <div class="guide-icon rounded-pill p-2">
                             @if($guide->facebook_url)
@@ -58,4 +57,3 @@
     </div>
 </div>
 <!-- Travel Guide End -->
-

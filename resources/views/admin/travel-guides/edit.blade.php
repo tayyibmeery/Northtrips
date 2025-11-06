@@ -35,17 +35,19 @@
 
                                 <div class="form-group">
                                     <label for="image">Profile Image</label>
-                                    <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image" name="image">
+                                    <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image" name="image" accept="image/*">
                                     @error('image')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                    <small class="form-text text-muted">
+                                        Leave empty to keep current image. Recommended size: 400x400px
+                                    </small>
                                     @if($travelGuide->image)
                                     <div class="mt-2">
-                                        <img src="{{ Storage::url($travelGuide->image) }}" alt="{{ $travelGuide->name }}" style="width: 100px; height: 100px; object-fit: cover;" class="rounded">
-                                        <small class="d-block text-muted">Current image</small>
+                                        <img src="{{ asset('images/travel-guides/' . $travelGuide->image) }}" alt="Current Image" style="max-height: 150px; max-width: 100%; object-fit: cover;" class="img-thumbnail">
+                                        <p class="text-muted mt-1">Current Image</p>
                                     </div>
                                     @endif
-                                    <small class="form-text text-muted">Supported formats: jpeg, png, jpg, gif. Max size: 2MB</small>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -82,16 +84,16 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="order">Order</label>
-                                    <input type="number" class="form-control @error('order') is-invalid @enderror" id="order" name="order" value="{{ old('order', $travelGuide->order) }}" placeholder="Display order">
+                                    <label for="order">Display Order</label>
+                                    <input type="number" class="form-control @error('order') is-invalid @enderror" id="order" name="order" value="{{ old('order', $travelGuide->order) }}" min="0">
                                     @error('order')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" {{ old('is_active', $travelGuide->is_active) ? 'checked' : '' }}>
+                                    <div class="custom-control custom-switch mt-4">
+                                        <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" {{ $travelGuide->is_active ? 'checked' : '' }}>
                                         <label class="custom-control-label" for="is_active">Active</label>
                                     </div>
                                 </div>

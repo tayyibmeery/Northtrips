@@ -28,7 +28,7 @@ class GalleryController extends Controller
         $request->validate([
             'category_id' => 'required|exists:gallery_categories,id',
             'title' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'button_text' => 'nullable|string|max:50',
             'button_link' => 'nullable|url',
             'order' => 'integer',
@@ -39,7 +39,19 @@ class GalleryController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('galleries', 'public');
+            $imageDirectory = public_path('images/galleries');
+
+            // Create directory if it doesn't exist
+            if (!file_exists($imageDirectory)) {
+                mkdir($imageDirectory, 0755, true);
+            }
+
+            $imageFile = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $imageFile->move($imageDirectory, $imageName);
+            $data['image'] = $imageName;
         }
 
         Gallery::create($data);
@@ -59,7 +71,7 @@ class GalleryController extends Controller
         $request->validate([
             'category_id' => 'required|exists:gallery_categories,id',
             'title' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'button_text' => 'nullable|string|max:50',
             'button_link' => 'nullable|url',
             'order' => 'integer',
@@ -70,11 +82,28 @@ class GalleryController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete old image
-            if ($gallery->image && Storage::exists($gallery->image)) {
-                Storage::delete($gallery->image);
+            $imageDirectory = public_path('images/galleries');
+
+            // Create directory if it doesn't exist
+            if (!file_exists($imageDirectory)) {
+                mkdir($imageDirectory, 0755, true);
             }
-            $data['image'] = $request->file('image')->store('galleries', 'public');
+
+            // Delete old image if exists
+            if ($gallery->image) {
+                $oldImagePath = $imageDirectory . '/' . $gallery->image;
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            // Store new image
+            $imageFile = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $imageFile->move($imageDirectory, $imageName);
+            $data['image'] = $imageName;
         }
 
         $gallery->update($data);
@@ -86,8 +115,11 @@ class GalleryController extends Controller
     public function destroy(Gallery $gallery)
     {
         // Delete image
-        if ($gallery->image && Storage::exists($gallery->image)) {
-            Storage::delete($gallery->image);
+        if ($gallery->image) {
+            $imagePath = public_path('images/galleries/' . $gallery->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
 
         $gallery->delete();

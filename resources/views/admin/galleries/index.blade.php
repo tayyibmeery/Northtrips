@@ -44,7 +44,7 @@
                                     <td>{{ $gallery->id }}</td>
                                     <td>
                                         @if($gallery->image)
-                                        <img src="{{ asset('storage/' . $gallery->image) }}" alt="{{ $gallery->title }}" style="width: 50px; height: 50px; object-fit: cover;">
+                                        <img src="{{ asset('images/galleries/' . $gallery->image) }}" alt="{{ $gallery->title }}" style="width: 50px; height: 50px; object-fit: cover;" class="img-thumbnail">
                                         @else
                                         <span class="text-muted">No Image</span>
                                         @endif

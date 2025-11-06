@@ -6,7 +6,7 @@
         <p class="mb-0">Explore our stunning collection of travel destinations and experiences from around the world. Discover breathtaking landscapes, cultural treasures, and unforgettable adventures.</p>
     </div>
 
-    @if($galleryCategories->count() > 0) {{-- Changed from $categories to $galleryCategories --}}
+    @if($galleryCategories->count() > 0)
     <div class="tab-class text-center">
         <ul class="nav nav-pills d-inline-flex justify-content-center mb-5">
             <li class="nav-item">
@@ -14,7 +14,7 @@
                     <span class="text-dark" style="width: 150px;">All</span>
                 </a>
             </li>
-            @foreach($galleryCategories as $index => $category) {{-- Changed from $categories to $galleryCategories --}}
+            @foreach($galleryCategories as $index => $category)
             <li class="nav-item">
                 <a class="d-flex py-2 mx-3 border border-primary bg-light rounded-pill" data-bs-toggle="pill" href="#GalleryTab-{{ $category->id }}">
                     <span class="text-dark" style="width: 150px;">{{ $category->name }}</span>
@@ -27,11 +27,11 @@
             <!-- All Tab -->
             <div id="GalleryTab-all" class="tab-pane fade show p-0 active">
                 <div class="row g-2">
-                    @foreach($galleryCategories as $category) {{-- Changed from $categories to $galleryCategories --}}
+                    @foreach($galleryCategories as $category)
                     @foreach($category->galleries as $gallery)
                     <div class="col-sm-6 col-md-6 col-lg-4 col-xl-2">
                         <div class="gallery-item h-100">
-                            <img src="{{ Storage::url($gallery->image) }}" class="img-fluid w-100 h-100 rounded" alt="{{ $gallery->title }}" style="object-fit: cover;">
+                            <img src="{{ asset('images/galleries/' . $gallery->image) }}" class="img-fluid w-100 h-100 rounded" alt="{{ $gallery->title }}" style="object-fit: cover;">
                             <div class="gallery-content">
                                 <div class="gallery-info">
                                     <h5 class="text-white text-uppercase mb-2">{{ $category->name }}</h5>
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                             <div class="gallery-plus-icon">
-                                <a href="{{ Storage::url($gallery->image) }}" data-lightbox="gallery-all" class="my-auto">
+                                <a href="{{ asset('images/galleries/' . $gallery->image) }}" data-lightbox="gallery-all" class="my-auto">
                                     <i class="fas fa-plus fa-2x text-white"></i>
                                 </a>
                             </div>
@@ -56,13 +56,13 @@
             </div>
 
             <!-- Category Tabs -->
-            @foreach($galleryCategories as $category) {{-- Changed from $categories to $galleryCategories --}}
+            @foreach($galleryCategories as $category)
             <div id="GalleryTab-{{ $category->id }}" class="tab-pane fade show p-0">
                 <div class="row g-2">
                     @foreach($category->galleries as $gallery)
                     <div class="col-sm-6 col-md-6 col-lg-4 col-xl-2">
                         <div class="gallery-item h-100">
-                            <img src="{{ Storage::url($gallery->image) }}" class="img-fluid w-100 h-100 rounded" alt="{{ $gallery->title }}" style="object-fit: cover;">
+                            <img src="{{ asset('images/galleries/' . $gallery->image) }}" class="img-fluid w-100 h-100 rounded" alt="{{ $gallery->title }}" style="object-fit: cover;">
                             <div class="gallery-content">
                                 <div class="gallery-info">
                                     <h5 class="text-white text-uppercase mb-2">{{ $category->name }}</h5>
@@ -75,7 +75,7 @@
                                 </div>
                             </div>
                             <div class="gallery-plus-icon">
-                                <a href="{{ Storage::url($gallery->image) }}" data-lightbox="gallery-{{ $category->id }}" class="my-auto">
+                                <a href="{{ asset('images/galleries/' . $gallery->image) }}" data-lightbox="gallery-{{ $category->id }}" class="my-auto">
                                     <i class="fas fa-plus fa-2x text-white"></i>
                                 </a>
                             </div>
@@ -94,6 +94,8 @@
     @endif
 </div>
 <!-- Gallery End -->
+
+@push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Initialize lightbox
@@ -135,3 +137,4 @@
     });
 
 </script>
+@endpush

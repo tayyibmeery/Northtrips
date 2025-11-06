@@ -23,13 +23,10 @@ class TravelGuideController extends Controller
 
     public function store(Request $request)
     {
-        // Debug: Check what's coming in the request
-        // dd($request->all());
-
         $request->validate([
             'name' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'facebook_url' => 'nullable|url',
             'twitter_url' => 'nullable|url',
             'instagram_url' => 'nullable|url',
@@ -41,16 +38,25 @@ class TravelGuideController extends Controller
         try {
             $data = $request->except('image');
 
-            // Handle checkbox boolean value
-            $data['is_active'] = $request->has('is_active') ? true : false;
-
             // Handle image upload
             if ($request->hasFile('image')) {
-                $data['image'] = $request->file('image')->store('travel-guides', 'public');
+                $imageDirectory = public_path('images/travel-guides');
+
+                // Create directory if it doesn't exist
+                if (!file_exists($imageDirectory)) {
+                    mkdir($imageDirectory, 0755, true);
+                }
+
+                $imageFile = $request->file('image');
+                $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+                // Move uploaded file
+                $imageFile->move($imageDirectory, $imageName);
+                $data['image'] = $imageName;
             }
 
-            // Debug: Check data before creation
-            // dd($data);
+            // Handle checkbox boolean value
+            $data['is_active'] = $request->has('is_active') ? true : false;
 
             TravelGuide::create($data);
 
@@ -58,9 +64,6 @@ class TravelGuideController extends Controller
                 ->with('success', 'Travel guide created successfully.');
 
         } catch (\Exception $e) {
-            // Debug: Show the actual error
-            // dd($e->getMessage());
-
             return redirect()->back()
                 ->with('error', 'Error creating travel guide: ' . $e->getMessage())
                 ->withInput();
@@ -77,7 +80,7 @@ class TravelGuideController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'facebook_url' => 'nullable|url',
             'twitter_url' => 'nullable|url',
             'instagram_url' => 'nullable|url',
@@ -88,16 +91,34 @@ class TravelGuideController extends Controller
 
         try {
             $data = $request->except('image');
-            $data['is_active'] = $request->has('is_active') ? true : false;
 
             // Handle image upload
             if ($request->hasFile('image')) {
-                // Delete old image
-                if ($travelGuide->image && Storage::disk('public')->exists($travelGuide->image)) {
-                    Storage::disk('public')->delete($travelGuide->image);
+                $imageDirectory = public_path('images/travel-guides');
+
+                // Create directory if it doesn't exist
+                if (!file_exists($imageDirectory)) {
+                    mkdir($imageDirectory, 0755, true);
                 }
-                $data['image'] = $request->file('image')->store('travel-guides', 'public');
+
+                // Delete old image if exists
+                if ($travelGuide->image) {
+                    $oldImagePath = $imageDirectory . '/' . $travelGuide->image;
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
+                }
+
+                // Store new image
+                $imageFile = $request->file('image');
+                $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+                // Move uploaded file
+                $imageFile->move($imageDirectory, $imageName);
+                $data['image'] = $imageName;
             }
+
+            $data['is_active'] = $request->has('is_active') ? true : false;
 
             $travelGuide->update($data);
 
@@ -115,8 +136,11 @@ class TravelGuideController extends Controller
     {
         try {
             // Delete image
-            if ($travelGuide->image && Storage::disk('public')->exists($travelGuide->image)) {
-                Storage::disk('public')->delete($travelGuide->image);
+            if ($travelGuide->image) {
+                $imagePath = public_path('images/travel-guides/' . $travelGuide->image);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
             }
 
             $travelGuide->delete();
