@@ -37,7 +37,7 @@
                             @enderror
                             @if($companySetting->logo)
                             <div class="mt-2">
-                                <img src="{{ Storage::url($companySetting->logo) }}" alt="Logo" style="max-height: 100px;">
+                                <img src="{{ asset('images/CompanySetting/' . $companySetting->logo) }}" alt="Logo" style="max-height: 100px;">
                             </div>
                             @endif
                         </div>

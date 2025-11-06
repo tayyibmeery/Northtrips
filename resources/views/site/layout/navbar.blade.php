@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
     <a href="{{ route('home') }}" class="navbar-brand rounded-circle p-0">
-        <img src="{{ Storage::url($setting->logo) }}" alt="{{ $setting->company_name }}" class="rounded-circle" style="height: 50px; width: 50px; object-fit: cover;">
+        <img src="{{ asset('images/CompanySetting/' . $setting->logo) }}" alt="{{ $setting->company_name }}" class="rounded-circle" style="height: 50px; width: 50px; object-fit: cover;">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
         <span class="fa fa-bars"></span>

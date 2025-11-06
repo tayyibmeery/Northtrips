@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
-    <link rel="icon" type="image/png" href="{{ Storage::url($setting->logo) }}" class="rounded-circle">
+    <link rel="icon" type="image/png" href="{{ asset('images/CompanySetting/' . $setting->logo) }}" class="rounded-circle">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Google Web Fonts -->

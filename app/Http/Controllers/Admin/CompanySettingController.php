@@ -24,7 +24,7 @@ class CompanySettingController extends Controller
     {
         $request->validate([
             'company_name' => 'required|string|max:255',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'address' => 'nullable|string',
             'email' => 'nullable|email',
             'phone' => 'nullable|string|max:20',
@@ -35,13 +35,29 @@ class CompanySettingController extends Controller
 
         // Handle logo upload
         if ($request->hasFile('logo')) {
-            // Delete old logo if exists
-            if ($companySetting->logo && Storage::exists($companySetting->logo)) {
-                Storage::delete($companySetting->logo);
+            // Define directory path
+            $logoDirectory = public_path('images/CompanySetting');
+
+            // Create directory if it doesn't exist
+            if (!file_exists($logoDirectory)) {
+                mkdir($logoDirectory, 0755, true);
             }
 
-            $logoPath = $request->file('logo')->store('company', 'public');
-            $companySetting->logo = $logoPath;
+            // Delete old logo if exists
+            if ($companySetting->logo) {
+                $oldLogoPath = $logoDirectory . '/' . $companySetting->logo;
+                if (file_exists($oldLogoPath)) {
+                    unlink($oldLogoPath);
+                }
+            }
+
+            // Store new logo
+            $logoFile = $request->file('logo');
+            $logoName = time() . '_' . uniqid() . '.' . $logoFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $logoFile->move($logoDirectory, $logoName);
+            $companySetting->logo = $logoName;
         }
 
         $companySetting->company_name = $request->company_name;
