@@ -40,7 +40,7 @@
                                     <td>{{ $about->title ?? 'N/A' }}</td>
                                     <td>
                                         @if($about->image)
-                                        <img src="{{ Storage::url($about->image) }}" alt="About Image" style="max-height: 60px; max-width: 100px; object-fit: cover;">
+                                        <img src="{{ asset('images/about/' . $about->image) }}" alt="About Image" style="max-height: 60px; max-width: 100px; object-fit: cover;">
                                         @else
                                         No Image
                                         @endif

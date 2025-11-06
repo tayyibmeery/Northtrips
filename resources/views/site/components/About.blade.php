@@ -7,7 +7,7 @@
             <div class="col-lg-5">
                 <div class="h-100" style="border: 50px solid; border-color: transparent #13357B transparent #13357B;">
                     @if($about->image)
-                    <img src="{{ asset('storage/' . $about->image) }}" class="img-fluid w-100 h-100" alt="{{ $about->title ?: 'About Us' }}" style="object-fit: cover;">
+                    <img src="{{ asset('images/about/' . $about->image) }}" class="img-fluid w-100 h-100" alt="{{ $about->title ?: 'About Us' }}" style="object-fit: cover;">
                     @else
                     <!-- Fallback image -->
                     <div class="bg-light d-flex align-items-center justify-content-center h-100">
@@ -22,7 +22,7 @@
 
             <!-- Content Column -->
             <div class="col-lg-7" style="background: linear-gradient(rgba(255, 255, 255, .8), rgba(255, 255, 255, .8)),
-                        url({{ $about->background_image ? asset('storage/' . $about->background_image) : asset('img/about-img-1.png') }});
+                        url({{ $about->background_image ? asset('images/about/' . $about->background_image) : asset('img/about-img-1.png') }});
                         background-size: cover; background-position: center;">
 
                 <h5 class="section-about-title pe-3">About Us</h5>
@@ -98,7 +98,7 @@
                     <img src="{{ asset('img/about-img.jpg') }}" class="img-fluid w-100 h-100" alt="About North Trips & Travel">
                 </div>
             </div>
-            <div class="col-lg-7" style="background: linear-gradient(rgba(255, 255, 255, .8), rgba(255, 255, 255, .8)), url(img/about-img-1.png);">
+            <div class="col-lg-7" style="background: linear-gradient(rgba(255, 255, 255, .8), rgba(255, 255, 255, .8)), url({{ asset('img/about-img-1.png') }}); background-size: cover; background-position: center;">
                 <h5 class="section-about-title pe-3">About Us</h5>
                 <h1 class="mb-4">Welcome to <span class="text-primary">North Trips & Travel</span></h1>
                 <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, dolorum, doloribus sunt dicta, officia voluptatibus libero necessitatibus natus impedit quam ullam assumenda? Id atque iste consectetur. Commodi odit ab saepe!</p>

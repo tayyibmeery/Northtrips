@@ -43,7 +43,7 @@
 
                                 <div class="form-group">
                                     <label for="image">Main Image</label>
-                                    <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image" name="image">
+                                    <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image" name="image" accept="image/*">
                                     @error('image')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -52,7 +52,8 @@
                                     </small>
                                     @if($aboutSection->image)
                                     <div class="mt-2">
-                                        <img src="{{ Storage::url($aboutSection->image) }}" alt="Current Image" style="max-height: 150px; max-width: 100%; object-fit: cover;">
+                                        <img src="{{ asset('images/about/' . $aboutSection->image) }}" alt="Current Image" style="max-height: 150px; max-width: 100%; object-fit: cover;" class="img-thumbnail">
+                                        <p class="text-muted mt-1">Current Main Image</p>
                                     </div>
                                     @endif
                                 </div>
@@ -61,7 +62,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="background_image">Background Image</label>
-                                    <input type="file" class="form-control-file @error('background_image') is-invalid @enderror" id="background_image" name="background_image">
+                                    <input type="file" class="form-control-file @error('background_image') is-invalid @enderror" id="background_image" name="background_image" accept="image/*">
                                     @error('background_image')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -70,7 +71,8 @@
                                     </small>
                                     @if($aboutSection->background_image)
                                     <div class="mt-2">
-                                        <img src="{{ Storage::url($aboutSection->background_image) }}" alt="Current Background Image" style="max-height: 100px; max-width: 100%; object-fit: cover;">
+                                        <img src="{{ asset('images/about/' . $aboutSection->background_image) }}" alt="Current Background Image" style="max-height: 100px; max-width: 100%; object-fit: cover;" class="img-thumbnail">
+                                        <p class="text-muted mt-1">Current Background Image</p>
                                     </div>
                                     @endif
                                 </div>
@@ -174,7 +176,50 @@
                 $(this).closest('.input-group').remove();
             }
         });
-    });
 
+        // Image preview for main image
+        $('#image').change(function(e) {
+            const reader = new FileReader();
+            const file = e.target.files[0];
+
+            if (file) {
+                reader.onload = function(e) {
+                    // Remove existing preview if any
+                    $('#image-preview').remove();
+
+                    // Add new preview
+                    $(this).closest('.form-group').append(`
+                        <div class="mt-2" id="image-preview">
+                            <img src="${e.target.result}" alt="Preview" style="max-height: 150px; max-width: 100%; object-fit: cover;" class="img-thumbnail">
+                            <p class="text-muted mt-1">New Image Preview</p>
+                        </div>
+                    `);
+                }.bind(this);
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Image preview for background image
+        $('#background_image').change(function(e) {
+            const reader = new FileReader();
+            const file = e.target.files[0];
+
+            if (file) {
+                reader.onload = function(e) {
+                    // Remove existing preview if any
+                    $('#bg-image-preview').remove();
+
+                    // Add new preview
+                    $(this).closest('.form-group').append(`
+                        <div class="mt-2" id="bg-image-preview">
+                            <img src="${e.target.result}" alt="Background Preview" style="max-height: 100px; max-width: 100%; object-fit: cover;" class="img-thumbnail">
+                            <p class="text-muted mt-1">New Background Image Preview</p>
+                        </div>
+                    `);
+                }.bind(this);
+                reader.readAsDataURL(file);
+            }
+        });
+    });
 </script>
 @endpush

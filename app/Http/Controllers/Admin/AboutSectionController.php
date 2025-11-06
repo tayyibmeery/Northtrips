@@ -27,8 +27,8 @@ class AboutSectionController extends Controller
             'title' => 'nullable|string|max:255',
             'description1' => 'nullable|string',
             'description2' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'background_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'background_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'features' => 'nullable|array',
             'button_text' => 'nullable|string|max:50',
             'button_link' => 'nullable|url',
@@ -39,12 +39,36 @@ class AboutSectionController extends Controller
 
         // Handle main image upload
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('about', 'public');
+            $imageDirectory = public_path('images/about');
+
+            // Create directory if it doesn't exist
+            if (!file_exists($imageDirectory)) {
+                mkdir($imageDirectory, 0755, true);
+            }
+
+            $imageFile = $request->file('image');
+            $imageName = time() . '_image_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $imageFile->move($imageDirectory, $imageName);
+            $data['image'] = $imageName;
         }
 
         // Handle background image upload
         if ($request->hasFile('background_image')) {
-            $data['background_image'] = $request->file('background_image')->store('about', 'public');
+            $bgImageDirectory = public_path('images/about');
+
+            // Create directory if it doesn't exist
+            if (!file_exists($bgImageDirectory)) {
+                mkdir($bgImageDirectory, 0755, true);
+            }
+
+            $bgImageFile = $request->file('background_image');
+            $bgImageName = time() . '_bg_' . uniqid() . '.' . $bgImageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $bgImageFile->move($bgImageDirectory, $bgImageName);
+            $data['background_image'] = $bgImageName;
         }
 
         // Handle features array
@@ -70,8 +94,8 @@ class AboutSectionController extends Controller
             'title' => 'nullable|string|max:255',
             'description1' => 'nullable|string',
             'description2' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'background_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'background_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'features' => 'nullable|array',
             'button_text' => 'nullable|string|max:50',
             'button_link' => 'nullable|url',
@@ -80,22 +104,47 @@ class AboutSectionController extends Controller
 
         $data = $request->except(['image', 'background_image']);
 
+        $imageDirectory = public_path('images/about');
+
+        // Create directory if it doesn't exist
+        if (!file_exists($imageDirectory)) {
+            mkdir($imageDirectory, 0755, true);
+        }
+
         // Handle main image upload
         if ($request->hasFile('image')) {
-            // Delete old image
-            if ($aboutSection->image && Storage::exists($aboutSection->image)) {
-                Storage::delete($aboutSection->image);
+            // Delete old image if exists
+            if ($aboutSection->image) {
+                $oldImagePath = $imageDirectory . '/' . $aboutSection->image;
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
             }
-            $data['image'] = $request->file('image')->store('about', 'public');
+
+            $imageFile = $request->file('image');
+            $imageName = time() . '_image_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $imageFile->move($imageDirectory, $imageName);
+            $data['image'] = $imageName;
         }
 
         // Handle background image upload
         if ($request->hasFile('background_image')) {
-            // Delete old background image
-            if ($aboutSection->background_image && Storage::exists($aboutSection->background_image)) {
-                Storage::delete($aboutSection->background_image);
+            // Delete old background image if exists
+            if ($aboutSection->background_image) {
+                $oldBgImagePath = $imageDirectory . '/' . $aboutSection->background_image;
+                if (file_exists($oldBgImagePath)) {
+                    unlink($oldBgImagePath);
+                }
             }
-            $data['background_image'] = $request->file('background_image')->store('about', 'public');
+
+            $bgImageFile = $request->file('background_image');
+            $bgImageName = time() . '_bg_' . uniqid() . '.' . $bgImageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $bgImageFile->move($imageDirectory, $bgImageName);
+            $data['background_image'] = $bgImageName;
         }
 
         // Handle features array
@@ -112,12 +161,22 @@ class AboutSectionController extends Controller
 
     public function destroy(AboutSection $aboutSection)
     {
-        // Delete images
-        if ($aboutSection->image && Storage::exists($aboutSection->image)) {
-            Storage::delete($aboutSection->image);
+        $imageDirectory = public_path('images/about');
+
+        // Delete main image
+        if ($aboutSection->image) {
+            $imagePath = $imageDirectory . '/' . $aboutSection->image;
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
-        if ($aboutSection->background_image && Storage::exists($aboutSection->background_image)) {
-            Storage::delete($aboutSection->background_image);
+
+        // Delete background image
+        if ($aboutSection->background_image) {
+            $bgImagePath = $imageDirectory . '/' . $aboutSection->background_image;
+            if (file_exists($bgImagePath)) {
+                unlink($bgImagePath);
+            }
         }
 
         $aboutSection->delete();
