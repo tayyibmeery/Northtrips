@@ -49,6 +49,10 @@ Route::post('/subscribe', [SubscriberController::class, 'subscribe'])->name('sub
 
 // Auth Routes
 Route::get('/dashboard', function () {
+    // If user is admin, redirect to admin dashboard
+    if (auth()->check() && auth()->user()->is_admin) {
+        return redirect()->route('admin.index');
+    }
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 

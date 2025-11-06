@@ -21,8 +21,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin', // make sure this is included
     ];
 
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'is_admin' => 'boolean',
+    ];
     /**
      * The attributes that should be hidden for serialization.
      *

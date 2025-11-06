@@ -16,12 +16,14 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Check if user is authenticated and is an admin
-        if (Auth::check() && Auth::user()->is_admin) {
-            return $next($request);
+        if (!Auth::check() || !Auth::user()->is_admin) {
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Unauthorized.'], 403);
+            }
+
+            return redirect('/dashboard')->with('error', 'You do not have permission to access this area.');
         }
 
-        // Redirect non-admin users to home page with error message
-        return redirect('/')->with('error', 'You do not have admin access.');
+        return $next($request);
     }
 }
