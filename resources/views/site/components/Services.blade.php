@@ -21,7 +21,7 @@
                                 <p class="mb-0">{{ $service->description }}</p>
                             </div>
                             <div class="service-icon p-4">
-                                <i class="{{ $service->icon }} fa-4x" style="color: {{ $service->icon_color ?: '#13357B' }}"></i>
+                                <i class="{{ $service->icon }} fa-4x" style="color: {{ $service->icon_color ?: '#FFCE3F' }}"></i>
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                     <div class="col-12">
                         <div class="service-content-inner d-flex align-items-center bg-white border border-primary rounded p-4 ps-0">
                             <div class="service-icon p-4">
-                                <i class="{{ $service->icon }} fa-4x" style="color: {{ $service->icon_color ?: '#13357B' }}"></i>
+                                <i class="{{ $service->icon }} fa-4x" style="color: {{ $service->icon_color ?: '#FFCE3F' }}"></i>
                             </div>
                             <div class="service-content">
                                 <h5 class="mb-4">{{ $service->title }}</h5>
@@ -57,7 +57,7 @@
             <div class="col-12 d-lg-none">
                 <div class="service-content-inner d-flex align-items-center bg-white border border-primary rounded p-4">
                     <div class="service-icon p-4">
-                        <i class="{{ $lastService->icon }} fa-4x" style="color: {{ $lastService->icon_color ?: '#13357B' }}"></i>
+                        <i class="{{ $lastService->icon }} fa-4x" style="color: {{ $lastService->icon_color ?: '#FFCE3F' }}"></i>
                     </div>
                     <div class="service-content">
                         <h5 class="mb-4">{{ $lastService->title }}</h5>

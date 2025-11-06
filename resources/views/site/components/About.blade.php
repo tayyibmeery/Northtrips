@@ -5,7 +5,7 @@
         <div class="row g-5 align-items-center">
             <!-- Image Column -->
             <div class="col-lg-5">
-                <div class="h-100" style="border: 50px solid; border-color: transparent #13357B transparent #13357B;">
+                <div class="h-100" style="border: 50px solid; border-color: transparent #FFCE3F transparent #FFCE3F;">
                     @if($about->image)
                     <img src="{{ asset('images/about/' . $about->image) }}" class="img-fluid w-100 h-100" alt="{{ $about->title ?: 'About Us' }}" style="object-fit: cover;">
                     @else
@@ -94,7 +94,7 @@
         <!-- Default About Section when no data exists -->
         <div class="row g-5 align-items-center">
             <div class="col-lg-5">
-                <div class="h-100" style="border: 50px solid; border-color: transparent #13357B transparent #13357B;">
+                <div class="h-100" style="border: 50px solid; border-color: transparent #FFCE3F transparent #FFCE3F;">
                     <img src="{{ asset('img/about-img.jpg') }}" class="img-fluid w-100 h-100" alt="About North Trips & Travel">
                 </div>
             </div>

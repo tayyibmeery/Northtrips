@@ -35,7 +35,7 @@ class Service extends Model
     // Get icon color or default
     public function getIconColorAttribute($value)
     {
-        return $value ?: '#13357B'; // Default primary color
+        return $value ?: '#FFCE3F'; // Default primary color
     }
 
     // Check if service should be on left or right side
