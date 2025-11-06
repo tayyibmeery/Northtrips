@@ -13,7 +13,7 @@
                    @forelse($carousels as $key => $carousel)
                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
                        @if($carousel->image)
-                       <img src="{{ asset('storage/' . $carousel->image) }}" class="img-fluid w-100" alt="{{ $carousel->title }}" style="max-height: 800px; object-fit: cover;">
+                       <img src="{{ asset('images/carousels/' . $carousel->image) }}" class="img-fluid w-100" alt="{{ $carousel->title }}" style="max-height: 800px; object-fit: cover;">
                        @else
                        <!-- Fallback image if no image is set -->
                        <div class="bg-primary d-flex align-items-center justify-content-center" style="height: 600px;">

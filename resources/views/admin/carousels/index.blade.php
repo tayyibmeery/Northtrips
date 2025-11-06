@@ -42,7 +42,7 @@
                                         <i class="fas fa-arrows-alt-v"></i> {{ $carousel->order }}
                                     </td>
                                     <td>
-                                        <img src="{{ Storage::url($carousel->image) }}" alt="Carousel Image" style="max-height: 60px; max-width: 100px; object-fit: cover;">
+                                        <img src="{{ asset('images/carousels/' . $carousel->image) }}" alt="Carousel Image" style="max-height: 60px; max-width: 100px; object-fit: cover;">
                                     </td>
                                     <td>{{ $carousel->title ?? 'N/A' }}</td>
                                     <td>{{ \Str::limit($carousel->heading, 50) ?? 'N/A' }}</td>

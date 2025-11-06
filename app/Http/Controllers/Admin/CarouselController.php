@@ -24,7 +24,7 @@ class CarouselController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title' => 'nullable|string|max:255',
             'heading' => 'nullable|string|max:255',
             'description' => 'nullable|string',
@@ -35,12 +35,24 @@ class CarouselController extends Controller
         ]);
 
         // Handle image upload
+        $imageName = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('carousels', 'public');
+            $imageDirectory = public_path('images/carousels');
+
+            // Create directory if it doesn't exist
+            if (!file_exists($imageDirectory)) {
+                mkdir($imageDirectory, 0755, true);
+            }
+
+            $imageFile = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $imageFile->move($imageDirectory, $imageName);
         }
 
         Carousel::create([
-            'image' => $imagePath,
+            'image' => $imageName,
             'title' => $request->title,
             'heading' => $request->heading,
             'description' => $request->description,
@@ -62,7 +74,7 @@ class CarouselController extends Controller
     public function update(Request $request, Carousel $carousel)
     {
         $request->validate([
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title' => 'nullable|string|max:255',
             'heading' => 'nullable|string|max:255',
             'description' => 'nullable|string',
@@ -74,13 +86,28 @@ class CarouselController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete old image
-            if ($carousel->image && Storage::exists($carousel->image)) {
-                Storage::delete($carousel->image);
+            $imageDirectory = public_path('images/carousels');
+
+            // Create directory if it doesn't exist
+            if (!file_exists($imageDirectory)) {
+                mkdir($imageDirectory, 0755, true);
             }
 
-            $imagePath = $request->file('image')->store('carousels', 'public');
-            $carousel->image = $imagePath;
+            // Delete old image if exists
+            if ($carousel->image) {
+                $oldImagePath = $imageDirectory . '/' . $carousel->image;
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            // Store new image
+            $imageFile = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $imageFile->move($imageDirectory, $imageName);
+            $carousel->image = $imageName;
         }
 
         $carousel->update([
@@ -89,8 +116,8 @@ class CarouselController extends Controller
             'description' => $request->description,
             'button_text' => $request->button_text,
             'button_link' => $request->button_link,
-            'is_active' => $request->is_active ?? true,
-            'order' => $request->order ?? 0,
+            'is_active' => $request->is_active ?? $carousel->is_active,
+            'order' => $request->order ?? $carousel->order,
         ]);
 
         return redirect()->route('admin.carousels.index')
@@ -100,8 +127,11 @@ class CarouselController extends Controller
     public function destroy(Carousel $carousel)
     {
         // Delete image
-        if ($carousel->image && Storage::exists($carousel->image)) {
-            Storage::delete($carousel->image);
+        if ($carousel->image) {
+            $imagePath = public_path('images/carousels/' . $carousel->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
 
         $carousel->delete();
