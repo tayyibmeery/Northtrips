@@ -60,7 +60,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="image">Tour Image</label>
-                                    <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image" name="image">
+                                    <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image" name="image" accept="image/*">
                                     @error('image')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -69,7 +69,8 @@
                                     </small>
                                     @if($exploreTour->image)
                                     <div class="mt-2">
-                                        <img src="{{ Storage::url($exploreTour->image) }}" alt="Current Image" style="max-height: 150px; max-width: 100%; object-fit: cover;">
+                                        <img src="{{ asset('images/explore-tours/' . $exploreTour->image) }}" alt="Current Image" style="max-height: 150px; max-width: 100%; object-fit: cover;" class="img-thumbnail">
+                                        <p class="text-muted mt-1">Current Image</p>
                                     </div>
                                     @endif
                                 </div>
@@ -79,7 +80,7 @@
                                     <input type="number" class="form-control @error('discount_percentage') is-invalid @enderror" id="discount_percentage" name="discount_percentage" value="{{ old('discount_percentage', $exploreTour->discount_percentage) }}" min="0" max="100" step="0.01" placeholder="e.g., 15.00">
                                     @error('discount_percentage')
                                     <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror>
+                                    @enderror
                                     <small class="form-text text-muted">Enter discount percentage (0-100)</small>
                                 </div>
 

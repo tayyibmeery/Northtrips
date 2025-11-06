@@ -42,9 +42,9 @@
                                     <td>{{ $tour->id }}</td>
                                     <td>
                                         @if($tour->image)
-                                        <img src="{{ Storage::url($tour->image) }}" alt="Tour Image" style="max-height: 60px; max-width: 100px; object-fit: cover;">
+                                        <img src="{{ asset('images/explore-tours/' . $tour->image) }}" alt="Tour Image" style="max-height: 60px; max-width: 100px; object-fit: cover;" class="img-thumbnail">
                                         @else
-                                        No Image
+                                        <span class="text-muted">No Image</span>
                                         @endif
                                     </td>
                                     <td>{{ $tour->title }}</td>

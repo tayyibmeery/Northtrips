@@ -26,11 +26,11 @@ class PackageController extends Controller
             'title' => 'required|string|max:255',
             'destination' => 'required|string|max:255',
             'duration_days' => 'required|integer|min:1',
-            'persons' => 'required|integer|min:1', // Changed to 'persons'
+            'persons' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
             'rating' => 'nullable|numeric|min:0|max:5',
             'description' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'hotel_deals_text' => 'nullable|string|max:50',
             'read_more_text' => 'nullable|string|max:50',
             'read_more_link' => 'nullable|string|max:255',
@@ -44,7 +44,19 @@ class PackageController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('packages', 'public');
+            $imageDirectory = public_path('images/packages');
+
+            // Create directory if it doesn't exist
+            if (!file_exists($imageDirectory)) {
+                mkdir($imageDirectory, 0755, true);
+            }
+
+            $imageFile = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $imageFile->move($imageDirectory, $imageName);
+            $data['image'] = $imageName;
         }
 
         // Set default values
@@ -68,11 +80,11 @@ class PackageController extends Controller
             'title' => 'required|string|max:255',
             'destination' => 'required|string|max:255',
             'duration_days' => 'required|integer|min:1',
-            'persons' => 'required|integer|min:1', // Changed to 'persons'
+            'persons' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
             'rating' => 'nullable|numeric|min:0|max:5',
             'description' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'hotel_deals_text' => 'nullable|string|max:50',
             'read_more_text' => 'nullable|string|max:50',
             'read_more_link' => 'nullable|string|max:255',
@@ -86,11 +98,28 @@ class PackageController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete old image
-            if ($package->image && Storage::disk('public')->exists($package->image)) {
-                Storage::disk('public')->delete($package->image);
+            $imageDirectory = public_path('images/packages');
+
+            // Create directory if it doesn't exist
+            if (!file_exists($imageDirectory)) {
+                mkdir($imageDirectory, 0755, true);
             }
-            $data['image'] = $request->file('image')->store('packages', 'public');
+
+            // Delete old image if exists
+            if ($package->image) {
+                $oldImagePath = $imageDirectory . '/' . $package->image;
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            // Store new image
+            $imageFile = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $imageFile->move($imageDirectory, $imageName);
+            $data['image'] = $imageName;
         }
 
         $data['is_active'] = $request->has('is_active');
@@ -104,8 +133,11 @@ class PackageController extends Controller
     public function destroy(Package $package)
     {
         // Delete image
-        if ($package->image && Storage::disk('public')->exists($package->image)) {
-            Storage::disk('public')->delete($package->image);
+        if ($package->image) {
+            $imagePath = public_path('images/packages/' . $package->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
 
         $package->delete();

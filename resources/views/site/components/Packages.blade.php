@@ -11,7 +11,7 @@
             @foreach($packages as $package)
             <div class="packages-item">
                 <div class="packages-img position-relative">
-                    <img src="{{ asset('storage/' . $package->image) }}" class="img-fluid w-100 rounded-top" alt="{{ $package->title }}" style="height: 250px; object-fit: cover;">
+                    <img src="{{ asset('images/packages/' . $package->image) }}" class="img-fluid w-100 rounded-top" alt="{{ $package->title }}" style="height: 250px; object-fit: cover;">
                     <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5; background: rgba(255,255,255,0.9);">
                         <small class="flex-fill text-center border-end py-2">
                             <i class="fa fa-map-marker-alt me-2"></i>{{ $package->destination }}
@@ -30,7 +30,20 @@
                         <h5 class="mb-0">{{ $package->title }}</h5>
                         <small class="text-uppercase">{{ $package->hotel_deals_text ?: 'Hotel Deals' }}</small>
                         <div class="mb-3">
-                            {!! $package->star_rating !!}
+                            @if($package->rating)
+                                @for($i = 1; $i <= 5; $i++)
+                                    @if($i <= floor($package->rating))
+                                        <small class="fa fa-star text-primary"></small>
+                                    @elseif($i - 0.5 <= $package->rating)
+                                        <small class="fa fa-star-half-alt text-primary"></small>
+                                    @else
+                                        <small class="far fa-star text-primary"></small>
+                                    @endif
+                                @endfor
+                                <small class="ms-1">({{ number_format($package->rating, 1) }})</small>
+                            @else
+                                <small class="text-muted">No rating</small>
+                            @endif
                         </div>
                         <p class="mb-4">{{ Str::limit($package->description, 120) }}</p>
                     </div>

@@ -21,7 +21,6 @@ class ExploreTourController extends Controller
     public function create()
     {
         $categories = TourCategory::active()->ordered()->get();
-        // $categories = DestinationCategory::active()->ordered()->get();
         return view('admin.explore-tours.create', compact('categories'));
     }
 
@@ -30,7 +29,7 @@ class ExploreTourController extends Controller
         $request->validate([
             'category_id' => 'required|exists:tour_categories,id',
             'title' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'cities_count' => 'nullable|integer|min:0',
             'tour_places_count' => 'nullable|integer|min:0',
             'discount_percentage' => 'nullable|numeric|min:0|max:100',
@@ -44,7 +43,19 @@ class ExploreTourController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('explore-tours', 'public');
+            $imageDirectory = public_path('images/explore-tours');
+
+            // Create directory if it doesn't exist
+            if (!file_exists($imageDirectory)) {
+                mkdir($imageDirectory, 0755, true);
+            }
+
+            $imageFile = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $imageFile->move($imageDirectory, $imageName);
+            $data['image'] = $imageName;
         }
 
         ExploreTour::create($data);
@@ -64,7 +75,7 @@ class ExploreTourController extends Controller
         $request->validate([
             'category_id' => 'required|exists:tour_categories,id',
             'title' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'cities_count' => 'nullable|integer|min:0',
             'tour_places_count' => 'nullable|integer|min:0',
             'discount_percentage' => 'nullable|numeric|min:0|max:100',
@@ -78,11 +89,28 @@ class ExploreTourController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete old image
-            if ($exploreTour->image && Storage::exists($exploreTour->image)) {
-                Storage::delete($exploreTour->image);
+            $imageDirectory = public_path('images/explore-tours');
+
+            // Create directory if it doesn't exist
+            if (!file_exists($imageDirectory)) {
+                mkdir($imageDirectory, 0755, true);
             }
-            $data['image'] = $request->file('image')->store('explore-tours', 'public');
+
+            // Delete old image if exists
+            if ($exploreTour->image) {
+                $oldImagePath = $imageDirectory . '/' . $exploreTour->image;
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            // Store new image
+            $imageFile = $request->file('image');
+            $imageName = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+            // Move uploaded file
+            $imageFile->move($imageDirectory, $imageName);
+            $data['image'] = $imageName;
         }
 
         $exploreTour->update($data);
@@ -94,8 +122,11 @@ class ExploreTourController extends Controller
     public function destroy(ExploreTour $exploreTour)
     {
         // Delete image
-        if ($exploreTour->image && Storage::exists($exploreTour->image)) {
-            Storage::delete($exploreTour->image);
+        if ($exploreTour->image) {
+            $imagePath = public_path('images/explore-tours/' . $exploreTour->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
 
         $exploreTour->delete();

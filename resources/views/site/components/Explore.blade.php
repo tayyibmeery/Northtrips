@@ -27,7 +27,7 @@
                         @foreach($nationalTours as $tour)
                         <div class="col-md-6 col-lg-4">
                             <div class="national-item position-relative overflow-hidden rounded">
-                                <img src="{{ asset('storage/' . $tour->image) }}" class="img-fluid w-100 rounded" alt="{{ $tour->title }}" style="height: 300px; object-fit: cover;">
+                                <img src="{{ asset('images/explore-tours/' . $tour->image) }}" class="img-fluid w-100 rounded" alt="{{ $tour->title }}" style="height: 300px; object-fit: cover;">
                                 <div class="national-content position-absolute bottom-0 start-0 end-0 p-4">
                                     <div class="national-info">
                                         <h5 class="text-white text-uppercase mb-2">{{ $tour->title }}</h5>
@@ -67,7 +67,7 @@
                     <div class="InternationalTour-carousel owl-carousel">
                         @foreach($internationalTours as $tour)
                         <div class="international-item position-relative overflow-hidden rounded">
-                            <img src="{{ asset('storage/' . $tour->image) }}" class="img-fluid w-100 rounded" alt="{{ $tour->title }}" style="height: 400px; object-fit: cover;">
+                            <img src="{{ asset('images/explore-tours/' . $tour->image) }}" class="img-fluid w-100 rounded" alt="{{ $tour->title }}" style="height: 400px; object-fit: cover;">
                             <div class="international-content position-absolute bottom-0 start-0 end-0 p-4">
                                 <div class="international-info">
                                     <h5 class="text-white text-uppercase mb-2">{{ $tour->title }}</h5>

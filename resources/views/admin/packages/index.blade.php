@@ -30,11 +30,11 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Image</th>
-                                    <th>Name</th>
-                                    <th>Category</th>
+                                    <th>Title</th>
+                                    <th>Destination</th>
                                     <th>Duration</th>
                                     <th>Price</th>
-                                    <th>Featured</th>
+                                    <th>Order</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -45,20 +45,16 @@
                                     <td>{{ $package->id }}</td>
                                     <td>
                                         @if($package->image)
-                                        <img src="{{ asset('storage/' . $package->image) }}" alt="{{ $package->name }}" style="width: 50px; height: 50px; object-fit: cover;">
+                                        <img src="{{ asset('images/packages/' . $package->image) }}" alt="{{ $package->title }}" style="width: 50px; height: 50px; object-fit: cover;" class="img-thumbnail">
                                         @else
                                         <span class="text-muted">No Image</span>
                                         @endif
                                     </td>
-                                    <td>{{ $package->name }}</td>
-                                    <td>{{ $package->category->name ?? 'N/A' }}</td>
-                                    <td>{{ $package->duration }}</td>
+                                    <td>{{ $package->title }}</td>
+                                    <td>{{ $package->destination }}</td>
+                                    <td>{{ $package->duration_days }} days</td>
                                     <td>${{ number_format($package->price, 2) }}</td>
-                                    <td>
-                                        <span class="badge badge-{{ $package->is_featured ? 'warning' : 'secondary' }}">
-                                            {{ $package->is_featured ? 'Yes' : 'No' }}
-                                        </span>
-                                    </td>
+                                    <td>{{ $package->order }}</td>
                                     <td>
                                         <span class="badge badge-{{ $package->is_active ? 'success' : 'danger' }}">
                                             {{ $package->is_active ? 'Active' : 'Inactive' }}
