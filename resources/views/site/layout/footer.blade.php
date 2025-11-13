@@ -130,9 +130,75 @@
 </div>
 <!-- Copyright End -->
 
-@if($footerSetting->show_back_to_top)
-<!-- Back to Top -->
-<a href="#" class="btn btn-primary btn-primary-outline-0 btn-md-square back-to-top">
-    <i class="fa fa-arrow-up"></i>
-</a>
+@if($setting->whatsapp)
+<!-- Floating Action Buttons -->
+<div class="floating-buttons">
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/{{ preg_replace('/\D/', '', $setting->whatsapp) }}?text=Hello%20{{ urlencode($setting->company_name ?? 'North Trips & Travel') }}%2C%20I'm%20interested%20in%20your%20travel%20services%20and%20would%20like%20to%20know%20more%20about%20your%20packages%20and%20pricing."
+       class="floating-btn whatsapp-btn"
+       target="_blank"
+       title="Message us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    @if($footerSetting->show_back_to_top)
+    <!-- Back to Top Button -->
+    <a href="#" class="floating-btn back-to-top-btn" title="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+    @endif
+</div>
+
+<style>
+.floating-buttons {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.floating-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    font-size: 1.5rem;
+}
+
+.whatsapp-btn {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    animation: float 3s ease-in-out infinite;
+}
+
+
+
+.floating-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.whatsapp-btn:hover {
+    background: linear-gradient(135deg, #128C7E, #075E54);
+}
+
+
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+</style>
 @endif
