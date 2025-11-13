@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('admin.index') }}" class="brand-link">
-     
+
         @php
             $companySettings = \App\Models\CompanySetting::first();
             $logoPath = $companySettings && $companySettings->logo ? asset('images/CompanySetting/' . $companySettings->logo) : asset('admin/dist/img/AdminLTELogo.png');
@@ -232,6 +232,22 @@
                     </ul>
                 </li>
 
+                <!-- Contact Queries -->
+<li class="nav-header">CONTACT MANAGEMENT</li>
+<li class="nav-item">
+    <a href="{{ route('admin.contact-queries.index') }}" class="nav-link {{ request()->routeIs('admin.contact-queries.*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-headset"></i>
+        <p>
+            Contact Queries
+            @php
+                $newQueriesCount = \App\Models\ContactQuery::where('status', 'new')->count();
+            @endphp
+            @if($newQueriesCount > 0)
+            <span class="badge badge-warning right">{{ $newQueriesCount }}</span>
+            @endif
+        </p>
+    </a>
+</li>
                 <!-- Newsletter -->
                 <li class="nav-header">NEWSLETTER</li>
                 <li class="nav-item">

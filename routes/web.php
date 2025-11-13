@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\TravelGuideController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
@@ -38,8 +39,21 @@ Route::get('/booking', [SiteController::class, 'booking'])->name('booking');
 Route::get('/gallery', [SiteController::class, 'gallery'])->name('gallery');
 Route::get('/guides', [SiteController::class, 'guides'])->name('guides');
 Route::get('/testimonial', [SiteController::class, 'testimonial'])->name('testimonial');
-Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
 
+
+
+// Contact Routes
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+
+Route::middleware(['auth', 'admin'])->prefix('admins')->name('admin.')->group(function () {
+    Route::get('/contact-queries', [ContactController::class, 'adminIndex'])->name('contact-queries.index');
+    Route::get('/contact-queries/{contactQuery}', [ContactController::class, 'show'])->name('contact-queries.show');
+    Route::put('/contact-queries/{contactQuery}', [ContactController::class, 'update'])->name('contact-queries.update');
+    Route::delete('/contact-queries/{contactQuery}', [ContactController::class, 'destroy'])->name('contact-queries.destroy');
+    Route::post('/contact-queries/{contactQuery}/respond', [ContactController::class, 'markAsResponded'])->name('contact-queries.respond');
+    Route::get('/contact-queries/export/{format}', [ContactController::class, 'export'])->name('contact-queries.export');
+});
 // Booking routes
 Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 Route::get('/booking/destinations', [BookingController::class, 'getDestinations'])->name('booking.destinations');
