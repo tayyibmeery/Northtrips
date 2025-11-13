@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DestinationCategoryController;
 use App\Http\Controllers\Admin\DestinationController;
 use App\Http\Controllers\Admin\ExploreTourController;
+use App\Http\Controllers\Admin\FooterSettingController;
 use App\Http\Controllers\Admin\GalleryCategoryController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\PackageController;
@@ -86,7 +87,9 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::prefix('admins')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     // Dashboard
     Route::get('/', [DashboardController::class, 'admin'])->name('index');
-
+// Footer Settings
+Route::get('/footer-settings/edit', [FooterSettingController::class, 'edit'])->name('footer-settings.edit');
+Route::put('/footer-settings/update', [FooterSettingController::class, 'update'])->name('footer-settings.update');
     // Settings
     Route::get('/company-settings/edit', [CompanySettingController::class, 'edit'])->name('company-settings.edit');
     Route::put('/company-settings/update', [CompanySettingController::class, 'update'])->name('company-settings.update');

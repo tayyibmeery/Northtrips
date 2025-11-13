@@ -231,7 +231,13 @@
                         </li>
                     </ul>
                 </li>
-
+<!-- Footer Settings -->
+<li class="nav-item">
+    <a href="{{ route('admin.footer-settings.edit') }}" class="nav-link {{ request()->routeIs('admin.footer-settings.*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-shoe-prints"></i>
+        <p>Footer Settings</p>
+    </a>
+</li>
                 <!-- Contact Queries -->
 <li class="nav-header">CONTACT MANAGEMENT</li>
 <li class="nav-item">

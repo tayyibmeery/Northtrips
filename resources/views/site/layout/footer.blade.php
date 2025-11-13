@@ -1,93 +1,106 @@
+@php
+    $footerSetting = \App\Models\FooterSetting::getSettings();
+    $setting = \App\Models\CompanySetting::first();
+    $social = \App\Models\SocialMediaLink::where('status', true)->get();
+@endphp
+
 <!-- Footer Start -->
 <div class="container-fluid footer py-5">
     <div class="container py-5">
         <div class="row g-5">
+            <!-- Get In Touch -->
             <div class="col-md-6 col-lg-6 col-xl-3">
                 <div class="footer-item d-flex flex-column">
                     <h4 class="mb-4 text-white">Get In Touch</h4>
-                    <a href=""><i class="fas fa-home me-2"></i> {{$setting->address}}</a>
+                    @if($setting->address)
+                    <a href="javascript:void(0)"><i class="fas fa-home me-2"></i> {{ $setting->address }}</a>
+                    @endif
 
-                    <a href=""><i class="fas fa-envelope me-2"></i> {{ $setting?->email  }}</a>
+                    @if($setting->email)
+                    <a href="mailto:{{ $setting->email }}"><i class="fas fa-envelope me-2"></i> {{ $setting->email }}</a>
+                    @endif
 
-                    <a href=""><i class="fas fa-phone me-2"></i> {{ $setting->phone }}</a>
+                    @if($setting->phone)
+                    <a href="tel:{{ $setting->phone }}"><i class="fas fa-phone me-2"></i> {{ $setting->phone }}</a>
+                    @endif
 
+                    @if($setting->whatsapp)
                     <a href="https://wa.me/{{ preg_replace('/\D/', '', $setting->whatsapp) }}" target="_blank" class="mb-3">
                         <i class="fab fa-whatsapp me-2"></i> {{ $setting->whatsapp }}
                     </a>
+                    @endif
 
-
+                    @if($social->count() > 0)
                     <div class="d-flex align-items-center">
                         <i class="fas fa-share fa-2x text-white me-2"></i>
-           @foreach($social as $value)
-           <a class="btn-square btn btn-primary rounded-circle mx-1" href="{{ $value->url }}" target="_blank">
-               <i class="fab fa-{{$value->icon_class}}"></i>
-           </a>
-           @endforeach
-
-
+                        @foreach($social as $value)
+                        <a class="btn-square btn btn-primary rounded-circle mx-1" href="{{ $value->url }}" target="_blank">
+                            <i class="fab fa-{{ $value->icon_class }}"></i>
+                        </a>
+                        @endforeach
                     </div>
+                    @endif
                 </div>
             </div>
+
+            <!-- Company Links -->
             <div class="col-md-6 col-lg-6 col-xl-3">
                 <div class="footer-item d-flex flex-column">
                     <h4 class="mb-4 text-white">Company</h4>
-                    <a href=""><i class="fas fa-angle-right me-2"></i> About</a>
-                    <a href=""><i class="fas fa-angle-right me-2"></i> Careers</a>
-                    <a href=""><i class="fas fa-angle-right me-2"></i> Blog</a>
-                    <a href=""><i class="fas fa-angle-right me-2"></i> Press</a>
-                    <a href=""><i class="fas fa-angle-right me-2"></i> Gift Cards</a>
-                    <a href=""><i class="fas fa-angle-right me-2"></i> Magazine</a>
+                    @foreach($footerSetting->company_links as $link)
+                    <a href="{{ $link['url'] }}"><i class="fas fa-angle-right me-2"></i> {{ $link['name'] }}</a>
+                    @endforeach
                 </div>
             </div>
+
+            <!-- Support Links -->
             <div class="col-md-6 col-lg-6 col-xl-3">
                 <div class="footer-item d-flex flex-column">
                     <h4 class="mb-4 text-white">Support</h4>
-                    <a href=""><i class="fas fa-angle-right me-2"></i> Contact</a>
-                    <a href=""><i class="fas fa-angle-right me-2"></i> Legal Notice</a>
-                    <a href=""><i class="fas fa-angle-right me-2"></i> Privacy Policy</a>
-                    <a href=""><i class="fas fa-angle-right me-2"></i> Terms and Conditions</a>
-                    <a href=""><i class="fas fa-angle-right me-2"></i> Sitemap</a>
-                    <a href=""><i class="fas fa-angle-right me-2"></i> Cookie policy</a>
+                    @foreach($footerSetting->support_links as $link)
+                    <a href="{{ $link['url'] }}"><i class="fas fa-angle-right me-2"></i> {{ $link['name'] }}</a>
+                    @endforeach
                 </div>
             </div>
+
+            <!-- Language & Payments -->
             <div class="col-md-6 col-lg-6 col-xl-3">
                 <div class="footer-item">
                     <div class="row gy-3 gx-2 mb-4">
                         <div class="col-xl-6">
                             <form>
                                 <div class="form-floating">
-                                    <select class="form-select bg-dark border" id="select1">
-                                        <option value="1">Arabic</option>
-                                        <option value="2">German</option>
-                                        <option value="3">Greek</option>
-                                        <option value="3">New York</option>
+                                    <select class="form-select bg-dark border" id="language-select">
+                                        <option selected>{{ $footerSetting->default_language }}</option>
+                                        @foreach($footerSetting->languages as $language)
+                                        <option value="{{ $language['code'] }}">{{ $language['name'] }}</option>
+                                        @endforeach
                                     </select>
-                                    <label for="select1">English</label>
+                                    <label for="language-select">Language</label>
                                 </div>
                             </form>
                         </div>
                         <div class="col-xl-6">
                             <form>
                                 <div class="form-floating">
-                                    <select class="form-select bg-dark border" id="select1">
-                                        <option value="1">USD</option>
-                                        <option value="2">EUR</option>
-                                        <option value="3">INR</option>
-                                        <option value="3">GBP</option>
+                                    <select class="form-select bg-dark border" id="currency-select">
+                                        <option selected>{{ $footerSetting->default_currency }}</option>
+                                        @foreach($footerSetting->currencies as $currency)
+                                        <option value="{{ $currency['code'] }}">{{ $currency['code'] }} ({{ $currency['symbol'] }})</option>
+                                        @endforeach
                                     </select>
-                                    <label for="select1">$</label>
+                                    <label for="currency-select">Currency</label>
                                 </div>
                             </form>
                         </div>
                     </div>
                     <h4 class="text-white mb-3">Payments</h4>
                     <div class="footer-bank-card">
-                        <a href="#" class="text-white me-2"><i class="fab fa-cc-amex fa-2x"></i></a>
-                        <a href="#" class="text-white me-2"><i class="fab fa-cc-visa fa-2x"></i></a>
-                        <a href="#" class="text-white me-2"><i class="fas fa-credit-card fa-2x"></i></a>
-                        <a href="#" class="text-white me-2"><i class="fab fa-cc-mastercard fa-2x"></i></a>
-                        <a href="#" class="text-white me-2"><i class="fab fa-cc-paypal fa-2x"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-cc-discover fa-2x"></i></a>
+                        @foreach($footerSetting->payment_methods as $method)
+                        <a href="#" class="text-white me-2">
+                            <i class="{{ $footerSetting->getPaymentIcon($method) }} fa-2x"></i>
+                        </a>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -101,20 +114,25 @@
     <div class="container">
         <div class="row g-4 align-items-center">
             <div class="col-md-6 text-center text-md-end mb-md-0">
-                <i class="fas fa-copyright me-2"></i><a class="text-white" href="#">Your Site Name</a>, All right reserved.
+                <i class="fas fa-copyright me-2"></i>
+                <a class="text-white" href="{{ route('home') }}">{{ $footerSetting->copyright_text }}</a>
             </div>
-            <div class="col-md-6 text-center text-md-start">
-                <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
-                <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
-                <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
-                Designed By <a class="text-white" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a href="https://themewagon.com">ThemeWagon</a>
-            </div>
+ @if($footerSetting->show_designer_credit)
+<div class="col-md-6 text-center text-md-start">
+    <small class="text-light opacity-75">
+        Design: <a class="text-white" href="https://htmlcodex.com" target="_blank">Tayyib Meery</a> |
+        Contact: <a class="text-white" href="tel:+923001520326">+92 300 1520326</a>
+    </small>
+</div>
+@endif
         </div>
     </div>
 </div>
-</div>
 <!-- Copyright End -->
 
+@if($footerSetting->show_back_to_top)
 <!-- Back to Top -->
-<a href="#" class="btn btn-primary btn-primary-outline-0 btn-md-square back-to-top"><i class="fa fa-arrow-up"></i></a>
-
+<a href="#" class="btn btn-primary btn-primary-outline-0 btn-md-square back-to-top">
+    <i class="fa fa-arrow-up"></i>
+</a>
+@endif
