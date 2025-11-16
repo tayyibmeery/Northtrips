@@ -2,11 +2,10 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('admin.index') }}" class="brand-link">
-
         @php
             $companySettings = \App\Models\CompanySetting::first();
             $logoPath = $companySettings && $companySettings->logo ? asset('images/CompanySetting/' . $companySettings->logo) : asset('admin/dist/img/AdminLTELogo.png');
-            $companyName = $companySettings && $companySettings->name ? $companySettings->name : 'North Trips & Travel';
+            $companyName = $companySettings && $companySettings->company_name ? $companySettings->company_name : 'North Trips & Travel';
         @endphp
         <img src="{{ $logoPath }}" alt="{{ $companyName }} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">{{ $companyName }}</span>
@@ -48,6 +47,89 @@
                     <a href="{{ route('admin.social-media-links.index') }}" class="nav-link {{ request()->routeIs('admin.social-media-links.*') ? 'active' : '' }}">
                         <i class="nav-icon fab fa-share-alt"></i>
                         <p>Social Media</p>
+                    </a>
+                </li>
+
+                <!-- ITINERARY MANAGEMENT -->
+                <li class="nav-header">ITINERARY MANAGEMENT</li>
+
+                <!-- Itinerary Components -->
+                <li class="nav-item {{
+                    request()->routeIs('admin.included-services.*') ||
+                    request()->routeIs('admin.excluded-services.*') ||
+                    request()->routeIs('admin.experience-highlights.*') ||
+                    request()->routeIs('admin.important-information.*') ||
+                    request()->routeIs('admin.quick-facts.*') ? 'menu-open' : ''
+                }}">
+                    <a href="#" class="nav-link {{
+                        request()->routeIs('admin.included-services.*') ||
+                        request()->routeIs('admin.excluded-services.*') ||
+                        request()->routeIs('admin.experience-highlights.*') ||
+                        request()->routeIs('admin.important-information.*') ||
+                        request()->routeIs('admin.quick-facts.*') ? 'active' : ''
+                    }}">
+                        <i class="nav-icon fas fa-puzzle-piece"></i>
+                        <p>
+                            Itinerary Components
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <!-- Included Services -->
+                        <li class="nav-item">
+                            <a href="{{ route('admin.included-services.index') }}" class="nav-link {{ request()->routeIs('admin.included-services.*') ? 'active' : '' }}">
+                                <i class="far fa-check-circle nav-icon text-success"></i>
+                                <p>Included Services</p>
+                            </a>
+                        </li>
+
+                        <!-- Excluded Services -->
+                        <li class="nav-item">
+                            <a href="{{ route('admin.excluded-services.index') }}" class="nav-link {{ request()->routeIs('admin.excluded-services.*') ? 'active' : '' }}">
+                                <i class="far fa-times-circle nav-icon text-danger"></i>
+                                <p>Excluded Services</p>
+                            </a>
+                        </li>
+
+                        <!-- Experience Highlights -->
+                        <li class="nav-item">
+                            <a href="{{ route('admin.experience-highlights.index') }}" class="nav-link {{ request()->routeIs('admin.experience-highlights.*') ? 'active' : '' }}">
+                                <i class="far fa-star nav-icon text-warning"></i>
+                                <p>Experience Highlights</p>
+                            </a>
+                        </li>
+
+                        <!-- Important Information -->
+                        <li class="nav-item">
+                            <a href="{{ route('admin.important-information.index') }}" class="nav-link {{ request()->routeIs('admin.important-information.*') ? 'active' : '' }}">
+                                <i class="far fa-info-circle nav-icon text-info"></i>
+                                <p>Important Information</p>
+                            </a>
+                        </li>
+
+                        <!-- Quick Facts -->
+                        <li class="nav-item">
+                            <a href="{{ route('admin.quick-facts.index') }}" class="nav-link {{ request()->routeIs('admin.quick-facts.*') ? 'active' : '' }}">
+                                <i class="far fa-lightbulb nav-icon text-primary"></i>
+                                <p>Quick Facts</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Itinerary Templates -->
+                <li class="nav-item">
+                    <a href="{{ route('admin.itinerary-templates.index') }}" class="nav-link {{ request()->routeIs('admin.itinerary-templates.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>
+                            Itinerary Templates
+                            @php
+                                $activeTemplatesCount = \App\Models\ItineraryTemplate::active()->count();
+                            @endphp
+                            @if($activeTemplatesCount > 0)
+                            <span class="badge badge-success right">{{ $activeTemplatesCount }}</span>
+                            @endif
+                        </p>
                     </a>
                 </li>
 
@@ -231,29 +313,32 @@
                         </li>
                     </ul>
                 </li>
-<!-- Footer Settings -->
-<li class="nav-item">
-    <a href="{{ route('admin.footer-settings.edit') }}" class="nav-link {{ request()->routeIs('admin.footer-settings.*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-shoe-prints"></i>
-        <p>Footer Settings</p>
-    </a>
-</li>
-                <!-- Contact Queries -->
-<li class="nav-header">CONTACT MANAGEMENT</li>
-<li class="nav-item">
-    <a href="{{ route('admin.contact-queries.index') }}" class="nav-link {{ request()->routeIs('admin.contact-queries.*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-headset"></i>
-        <p>
-            Contact Queries
-            @php
-                $newQueriesCount = \App\Models\ContactQuery::where('status', 'new')->count();
-            @endphp
-            @if($newQueriesCount > 0)
-            <span class="badge badge-warning right">{{ $newQueriesCount }}</span>
-            @endif
-        </p>
-    </a>
-</li>
+
+                <!-- Footer Settings -->
+                <li class="nav-item">
+                    <a href="{{ route('admin.footer-settings.edit') }}" class="nav-link {{ request()->routeIs('admin.footer-settings.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-shoe-prints"></i>
+                        <p>Footer Settings</p>
+                    </a>
+                </li>
+
+                <!-- Contact Management -->
+                <li class="nav-header">CONTACT MANAGEMENT</li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.contact-queries.index') }}" class="nav-link {{ request()->routeIs('admin.contact-queries.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-headset"></i>
+                        <p>
+                            Contact Queries
+                            @php
+                                $newQueriesCount = \App\Models\ContactQuery::where('status', 'new')->count();
+                            @endphp
+                            @if($newQueriesCount > 0)
+                            <span class="badge badge-warning right">{{ $newQueriesCount }}</span>
+                            @endif
+                        </p>
+                    </a>
+                </li>
+
                 <!-- Newsletter -->
                 <li class="nav-header">NEWSLETTER</li>
                 <li class="nav-item">

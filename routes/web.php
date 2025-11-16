@@ -9,11 +9,17 @@ use App\Http\Controllers\Admin\CompanySettingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DestinationCategoryController;
 use App\Http\Controllers\Admin\DestinationController;
+use App\Http\Controllers\Admin\ExcludedServiceController;
+use App\Http\Controllers\Admin\ExperienceHighlightController;
 use App\Http\Controllers\Admin\ExploreTourController;
 use App\Http\Controllers\Admin\FooterSettingController;
 use App\Http\Controllers\Admin\GalleryCategoryController;
 use App\Http\Controllers\Admin\GalleryController;
+use App\Http\Controllers\Admin\ImportantInformationController;
+use App\Http\Controllers\Admin\IncludedServiceController;
+use App\Http\Controllers\Admin\ItineraryTemplateController;
 use App\Http\Controllers\Admin\PackageController;
+use App\Http\Controllers\Admin\QuickFactController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SocialMediaLinkController;
 use App\Http\Controllers\Admin\SubscriberController;
@@ -138,6 +144,29 @@ Route::put('/footer-settings/update', [FooterSettingController::class, 'update']
     // Bookings - FIXED ROUTES
     Route::resource('/bookings', AdminBookingController::class);
     Route::get('/bookings/statistics', [AdminBookingController::class, 'statistics'])->name('bookings.statistics');
+
+    // Component Management Routes
+    Route::resource('included-services', IncludedServiceController::class);
+    Route::post('included-services/{includedService}/toggle-status', [IncludedServiceController::class, 'toggleStatus'])->name('included-services.toggle-status');
+
+    Route::resource('excluded-services', ExcludedServiceController::class);
+    Route::post('excluded-services/{excludedService}/toggle-status', [ExcludedServiceController::class, 'toggleStatus'])->name('excluded-services.toggle-status');
+
+    Route::resource('experience-highlights', ExperienceHighlightController::class);
+    Route::post('experience-highlights/{experienceHighlight}/toggle-status', [ExperienceHighlightController::class, 'toggleStatus'])->name('experience-highlights.toggle-status');
+
+    Route::resource('important-information', ImportantInformationController::class);
+    Route::post('important-information/{importantInformation}/toggle-status', [ImportantInformationController::class, 'toggleStatus'])->name('important-information.toggle-status');
+
+    Route::resource('quick-facts', QuickFactController::class);
+    Route::post('quick-facts/{quickFact}/toggle-status', [QuickFactController::class, 'toggleStatus'])->name('quick-facts.toggle-status');
+
+     Route::resource('itinerary-templates', ItineraryTemplateController::class);
+    Route::get('itinerary-templates/{itineraryTemplate}/download-pdf', [ItineraryTemplateController::class, 'downloadPdf'])->name('itinerary-templates.download-pdf');
+    Route::post('itinerary-templates/{itineraryTemplate}/toggle-status', [ItineraryTemplateController::class, 'toggleStatus'])->name('itinerary-templates.toggle-status');
+ Route::get('itinerary-templates/{itineraryTemplate}/view-pdf',
+        [ItineraryTemplateController::class, 'viewPdf'])
+        ->name('itinerary-templates.view-pdf');
 });
 
 require __DIR__ . '/auth.php';
