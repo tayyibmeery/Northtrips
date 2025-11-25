@@ -96,7 +96,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="duration_days">Duration (Days) *</label>
-                                            <input type="number" class="form-control" id="duration_days" name="duration_days" value="{{ old('duration_days', $itineraryTemplate->duration_days) }}" required min="1">
+                                            <input type="number" class="form-control" id="duration_days" name="duration_days" value="{{ old('duration_days', $itineraryTemplate->duration_days) }}" required min="0">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -376,7 +376,7 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <label>Day Number</label>
-                            <input type="number" class="form-control" name="days[${currentDayCount}][day_number]" value="${dayNumber !== null ? dayNumber : currentDayCount + 1}" min="1" required>
+                            <input type="number" class="form-control" name="days[${currentDayCount}][day_number]" value="${dayNumber !== null ? dayNumber : currentDayCount + 1}" min="0" required>
                         </div>
                     </div>
                     <div class="col-md-9">

@@ -11,6 +11,7 @@
         margin-bottom: 20px;
         background: #f8f9fa;
     }
+
     .component-item {
         background: white;
         border: 1px solid #dee2e6;
@@ -19,6 +20,7 @@
         margin-bottom: 8px;
         cursor: move;
     }
+
     .selected-components {
         min-height: 100px;
         border: 2px dashed #28a745;
@@ -26,6 +28,7 @@
         padding: 15px;
         background: #f8fff9;
     }
+
     .day-card {
         border: 1px solid #dee2e6;
         border-radius: 5px;
@@ -60,7 +63,7 @@
                                             <label for="name">Template Name *</label>
                                             <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
                                             @error('name')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
@@ -76,7 +79,7 @@
                                                 @endforeach
                                             </select>
                                             @error('season')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
@@ -88,7 +91,7 @@
                                             <label for="title">Trip Title *</label>
                                             <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" required>
                                             @error('title')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
@@ -97,7 +100,7 @@
                                             <label for="subtitle">Subtitle</label>
                                             <input type="text" class="form-control" id="subtitle" name="subtitle" value="{{ old('subtitle') }}">
                                             @error('subtitle')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
@@ -109,7 +112,7 @@
                                             <label for="duration_days">Duration (Days) *</label>
                                             <input type="number" class="form-control" id="duration_days" name="duration_days" value="{{ old('duration_days') }}" required min="1">
                                             @error('duration_days')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
@@ -118,7 +121,7 @@
                                             <label for="duration_nights">Duration (Nights) *</label>
                                             <input type="number" class="form-control" id="duration_nights" name="duration_nights" value="{{ old('duration_nights') }}" required min="0">
                                             @error('duration_nights')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
@@ -128,7 +131,7 @@
                                             <input type="file" class="form-control-file" id="cover_image" name="cover_image">
                                             <small class="form-text text-muted">Recommended size: 1200x600px</small>
                                             @error('cover_image')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
@@ -138,7 +141,7 @@
                                     <label for="description">Trip Description *</label>
                                     <textarea class="form-control" id="description" name="description" rows="4" required>{{ old('description') }}</textarea>
                                     @error('description')
-                                        <span class="text-danger">{{ $message }}</span>
+                                    <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
@@ -303,7 +306,7 @@
                                             <label>Standard Package (Solo) *</label>
                                             <input type="number" class="form-control" name="pricing_options[standard_solo]" value="{{ old('pricing_options.standard_solo') }}" required>
                                             @error('pricing_options.standard_solo')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
@@ -312,7 +315,7 @@
                                             <label>Standard Package (Couple) *</label>
                                             <input type="number" class="form-control" name="pricing_options[standard_couple]" value="{{ old('pricing_options.standard_couple') }}" required>
                                             @error('pricing_options.standard_couple')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
@@ -323,7 +326,7 @@
                                             <label>Deluxe Package (Solo)</label>
                                             <input type="number" class="form-control" name="pricing_options[deluxe_solo]" value="{{ old('pricing_options.deluxe_solo') }}">
                                             @error('pricing_options.deluxe_solo')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
@@ -332,7 +335,7 @@
                                             <label>Deluxe Package (Couple)</label>
                                             <input type="number" class="form-control" name="pricing_options[deluxe_couple]" value="{{ old('pricing_options.deluxe_couple') }}">
                                             @error('pricing_options.deluxe_couple')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
@@ -350,7 +353,7 @@
                                     <label for="payment_terms">Payment Terms</label>
                                     <textarea class="form-control" id="payment_terms" name="payment_terms" rows="3">{{ old('payment_terms') }}</textarea>
                                     @error('payment_terms')
-                                        <span class="text-danger">{{ $message }}</span>
+                                    <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
 
@@ -358,7 +361,7 @@
                                     <label for="cancellation_policy">Cancellation Policy</label>
                                     <textarea class="form-control" id="cancellation_policy" name="cancellation_policy" rows="3">{{ old('cancellation_policy') }}</textarea>
                                     @error('cancellation_policy')
-                                        <span class="text-danger">{{ $message }}</span>
+                                    <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
 
@@ -366,7 +369,7 @@
                                     <label for="terms_conditions">Terms & Conditions</label>
                                     <textarea class="form-control" id="terms_conditions" name="terms_conditions" rows="4">{{ old('terms_conditions') }}</textarea>
                                     @error('terms_conditions')
-                                        <span class="text-danger">{{ $message }}</span>
+                                    <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
@@ -392,23 +395,26 @@
 <script>
     let dayCount = 0;
 
-    // Add first day
-    addDay();
+    // Add first day - starting from day 0
+    addDay(0); // Start with day 0
 
-    function addDay() {
+    function addDay(dayNumber = null) {
+        // If no specific day number provided, use the current dayCount
+        const currentDayNumber = dayNumber !== null ? dayNumber : dayCount;
+
         const html = `
             <div class="day-card mb-3 p-3 border rounded">
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
                             <label>Day Number</label>
-                            <input type="number" class="form-control" name="days[${dayCount}][day_number]" value="${dayCount + 1}" min="1" required>
+                            <input type="number" class="form-control" name="days[${dayCount}][day_number]" value="${currentDayNumber}" min="0" required>
                         </div>
                     </div>
                     <div class="col-md-9">
                         <div class="form-group">
                             <label>Day Title *</label>
-                            <input type="text" class="form-control" name="days[${dayCount}][title]" required>
+                            <input type="text" class="form-control" name="days[${dayCount}][title]" placeholder="e.g., Arrival Day, Day 1, etc." required>
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -425,19 +431,19 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Activities</label>
-                            <textarea class="form-control" name="days[${dayCount}][activities]" rows="2"></textarea>
+                            <textarea class="form-control" name="days[${dayCount}][activities]" rows="2" placeholder="List of activities for this day"></textarea>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Meals</label>
-                            <textarea class="form-control" name="days[${dayCount}][meals]" rows="2"></textarea>
+                            <textarea class="form-control" name="days[${dayCount}][meals]" rows="2" placeholder="Meals included"></textarea>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Accommodation</label>
-                            <textarea class="form-control" name="days[${dayCount}][accommodation]" rows="2"></textarea>
+                            <textarea class="form-control" name="days[${dayCount}][accommodation]" rows="2" placeholder="Accommodation details"></textarea>
                         </div>
                     </div>
                 </div>
@@ -448,7 +454,17 @@
     }
 
     $('#add-day').click(function() {
-        addDay();
+        // Get the highest day number from existing days to maintain sequence
+        let highestDayNumber = -1;
+        $('input[name^="days["][name$="[day_number]"]').each(function() {
+            const dayNum = parseInt($(this).val());
+            if (dayNum > highestDayNumber) {
+                highestDayNumber = dayNum;
+            }
+        });
+
+        addDay(highestDayNumber + 1);
+
         // Enable remove buttons if there's more than one day
         if (dayCount > 1) {
             $('.remove-day').prop('disabled', false);
@@ -463,6 +479,31 @@
             if (dayCount === 1) {
                 $('.remove-day').prop('disabled', true);
             }
+
+            // Re-index the days array to maintain proper order
+            reindexDays();
+        }
+    });
+
+    // Re-index days after removal to avoid gaps in array
+    function reindexDays() {
+        $('.day-card').each(function(index) {
+            const inputs = $(this).find('input, textarea, select');
+            inputs.each(function() {
+                const name = $(this).attr('name');
+                if (name) {
+                    const newName = name.replace(/days\[\d+\]/, `days[${index}]`);
+                    $(this).attr('name', newName);
+                }
+            });
+        });
+    }
+
+    // Allow manual day number input including 0
+    $(document).on('change', 'input[name^="days["][name$="[day_number]"]', function() {
+        const value = parseInt($(this).val());
+        if (isNaN(value) || value < 0) {
+            $(this).val(0);
         }
     });
 
