@@ -102,11 +102,11 @@
                                 <div class="card-body">
                                     <div class="list-group">
                                         @php
-                                            $popularDestinations = \App\Models\Booking::select('destination', \DB::raw('COUNT(*) as count'))
-                                                ->groupBy('destination')
-                                                ->orderBy('count', 'DESC')
-                                                ->limit(5)
-                                                ->get();
+                                        $popularDestinations = \App\Models\Booking::select('destination', \DB::raw('COUNT(*) as count'))
+                                        ->groupBy('destination')
+                                        ->orderBy('count', 'DESC')
+                                        ->limit(5)
+                                        ->get();
                                         @endphp
                                         @foreach($popularDestinations as $destination)
                                         <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -141,7 +141,7 @@
                                             </thead>
                                             <tbody>
                                                 @php
-                                                    $recentBookings = \App\Models\Booking::latest()->take(5)->get();
+                                                $recentBookings = \App\Models\Booking::latest()->take(5)->get();
                                                 @endphp
                                                 @foreach($recentBookings as $recent)
                                                 <tr>
@@ -184,11 +184,26 @@
             data: {
                 labels: ['Pending', 'Confirmed', 'Cancelled', 'Completed'],
                 datasets: [{
-                    data: [
-                        {{ $pendingBookings }},
-                        {{ $confirmedBookings }},
-                        {{ \App\Models\Booking::where('status', 'cancelled')->count() }},
-                        {{ \App\Models\Booking::where('status', 'completed')->count() }}
+                    data: [{
+                            {
+                                $pendingBookings
+                            }
+                        },
+                        {
+                            {
+                                $confirmedBookings
+                            }
+                        },
+                        {
+                            {
+                                $cancelledBookings
+                            }
+                        },
+                        {
+                            {
+                                $completedBookings
+                            }
+                        }
                     ],
                     backgroundColor: [
                         '#ffc107',

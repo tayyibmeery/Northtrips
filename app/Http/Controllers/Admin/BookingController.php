@@ -51,15 +51,20 @@ class BookingController extends Controller
 
     public function statistics()
     {
+
         $totalBookings = Booking::count();
-        $pendingBookings = Booking::pending()->count();
-        $confirmedBookings = Booking::confirmed()->count();
-        $todayBookings = Booking::today()->count();
+        $pendingBookings = Booking::where('status', 'pending')->count();
+        $confirmedBookings = Booking::where('status', 'confirmed')->count();
+        $cancelledBookings = Booking::where('status', 'cancelled')->count();
+        $completedBookings = Booking::where('status', 'completed')->count();
+        $todayBookings = Booking::whereDate('booking_date', today())->count();
 
         return view('admin.bookings.statistics', compact(
             'totalBookings',
             'pendingBookings',
             'confirmedBookings',
+            'cancelledBookings',
+            'completedBookings',
             'todayBookings'
         ));
     }

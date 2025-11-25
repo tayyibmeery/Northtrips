@@ -3,9 +3,9 @@
     <!-- Brand Logo -->
     <a href="{{ route('admin.index') }}" class="brand-link">
         @php
-            $companySettings = \App\Models\CompanySetting::first();
-            $logoPath = $companySettings && $companySettings->logo ? asset('images/CompanySetting/' . $companySettings->logo) : asset('admin/dist/img/AdminLTELogo.png');
-            $companyName = $companySettings && $companySettings->company_name ? $companySettings->company_name : 'North Trips & Travel';
+        $companySettings = \App\Models\CompanySetting::first();
+        $logoPath = $companySettings && $companySettings->logo ? asset('images/CompanySetting/' . $companySettings->logo) : asset('admin/dist/img/AdminLTELogo.png');
+        $companyName = $companySettings && $companySettings->company_name ? $companySettings->company_name : 'North Trips & Travel';
         @endphp
         <img src="{{ $logoPath }}" alt="{{ $companyName }} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">{{ $companyName }}</span>
@@ -124,7 +124,7 @@
                         <p>
                             Itinerary Templates
                             @php
-                                $activeTemplatesCount = \App\Models\ItineraryTemplate::active()->count();
+                            $activeTemplatesCount = \App\Models\ItineraryTemplate::active()->count();
                             @endphp
                             @if($activeTemplatesCount > 0)
                             <span class="badge badge-success right">{{ $activeTemplatesCount }}</span>
@@ -154,7 +154,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.bookings.statistics') }}" class="nav-link {{ request()->routeIs('admin.bookings.statistics') ? 'active' : '' }}">
+                            <a href="{{ route('admin.booking.statistics') }}" class="nav-link {{ request()->routeIs('admin.booking.statistics') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Statistics</p>
                             </a>
@@ -330,7 +330,7 @@
                         <p>
                             Contact Queries
                             @php
-                                $newQueriesCount = \App\Models\ContactQuery::where('status', 'new')->count();
+                            $newQueriesCount = \App\Models\ContactQuery::where('status', 'new')->count();
                             @endphp
                             @if($newQueriesCount > 0)
                             <span class="badge badge-warning right">{{ $newQueriesCount }}</span>

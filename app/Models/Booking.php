@@ -46,6 +46,18 @@ class Booking extends Model
         return $query->whereDate('booking_date', today());
     }
 
+    // Scope for cancelled bookings
+    public function scopeCancelled($query)
+    {
+        return $query->where('status', 'cancelled');
+    }
+
+    // Scope for completed bookings
+    public function scopeCompleted($query)
+    {
+        return $query->where('status', 'completed');
+    }
+
     // Accessor for formatted booking date
     public function getFormattedDateAttribute()
     {

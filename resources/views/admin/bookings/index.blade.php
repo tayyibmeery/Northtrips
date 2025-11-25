@@ -10,7 +10,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Tour Bookings</h3>
                     <div class="card-tools">
-                        <a href="{{ route('admin.bookings.statistics') }}" class="btn btn-info">
+                        <a href="{{ route('admin.booking.statistics') }}" class="btn btn-info">
                             <i class="fas fa-chart-bar"></i> View Statistics
                         </a>
                     </div>

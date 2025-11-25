@@ -93,9 +93,9 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::prefix('admins')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     // Dashboard
     Route::get('/', [DashboardController::class, 'admin'])->name('index');
-// Footer Settings
-Route::get('/footer-settings/edit', [FooterSettingController::class, 'edit'])->name('footer-settings.edit');
-Route::put('/footer-settings/update', [FooterSettingController::class, 'update'])->name('footer-settings.update');
+    // Footer Settings
+    Route::get('/footer-settings/edit', [FooterSettingController::class, 'edit'])->name('footer-settings.edit');
+    Route::put('/footer-settings/update', [FooterSettingController::class, 'update'])->name('footer-settings.update');
     // Settings
     Route::get('/company-settings/edit', [CompanySettingController::class, 'edit'])->name('company-settings.edit');
     Route::put('/company-settings/update', [CompanySettingController::class, 'update'])->name('company-settings.update');
@@ -143,7 +143,7 @@ Route::put('/footer-settings/update', [FooterSettingController::class, 'update']
 
     // Bookings - FIXED ROUTES
     Route::resource('/bookings', AdminBookingController::class);
-    Route::get('/bookings/statistics', [AdminBookingController::class, 'statistics'])->name('bookings.statistics');
+    Route::get('/booking/statistic', [AdminBookingController::class, 'statistics'])->name('booking.statistics');
 
     // Component Management Routes
     Route::resource('included-services', IncludedServiceController::class);
@@ -161,11 +161,13 @@ Route::put('/footer-settings/update', [FooterSettingController::class, 'update']
     Route::resource('quick-facts', QuickFactController::class);
     Route::post('quick-facts/{quickFact}/toggle-status', [QuickFactController::class, 'toggleStatus'])->name('quick-facts.toggle-status');
 
-     Route::resource('itinerary-templates', ItineraryTemplateController::class);
+    Route::resource('itinerary-templates', ItineraryTemplateController::class);
     Route::get('itinerary-templates/{itineraryTemplate}/download-pdf', [ItineraryTemplateController::class, 'downloadPdf'])->name('itinerary-templates.download-pdf');
     Route::post('itinerary-templates/{itineraryTemplate}/toggle-status', [ItineraryTemplateController::class, 'toggleStatus'])->name('itinerary-templates.toggle-status');
- Route::get('itinerary-templates/{itineraryTemplate}/view-pdf',
-        [ItineraryTemplateController::class, 'viewPdf'])
+    Route::get(
+        'itinerary-templates/{itineraryTemplate}/view-pdf',
+        [ItineraryTemplateController::class, 'viewPdf']
+    )
         ->name('itinerary-templates.view-pdf');
 });
 
